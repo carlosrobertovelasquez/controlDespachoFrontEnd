@@ -6,7 +6,7 @@ import Moment from 'react-moment';
 import Global from '../../Global';
 import axios from 'axios';
 import swal from 'sweetalert';
-import Impresion from '../../components/Ticket/impersionTicket';
+import Impresion from '../../components/factura/ImpresionFlete';
 import useAuth from '../../hooks/useAuth';
 export default function Datatable({ data }) {
 	const [ datos, setDatos ] = useState([]);
@@ -16,7 +16,10 @@ export default function Datatable({ data }) {
 	const [ carro, setCarro ] = useState([]);
 	const [ modalVerCarro, setModalVerCarro ] = useState(false);
 	const [ dataAyudantes, setDataAyudantes ] = useState([]);
-	const [ formularioTicket, setFormularioTicket ] = useState({ preparador: '' });
+	const [ dataVehiculos, setDataVehiculos ] = useState([]);
+	const [ formularioTicket, setFormularioTicket ] = useState({ preparador: '', vehiculo: '' });
+	const [ kinicial, setKInicial ] = useState(0);
+	const [ kfinal, setKfinal ] = useState(0);
 
 	const [ searchResults, setSearchResults ] = useState([]);
 	const [ searchTerm, setSearchTerm ] = useState('');
@@ -75,7 +78,14 @@ export default function Datatable({ data }) {
 			selector: 'total_factura',
 			sortable: true,
 			compact: true,
-			width: '10%'
+			width: '8%'
+		},
+		{
+			name: 'CondicionPago',
+			selector: 'condicion_pago',
+			sortable: true,
+			compact: true,
+			width: '4%'
 		},
 		{
 			name: 'Ver',
@@ -88,7 +98,7 @@ export default function Datatable({ data }) {
 				</Button>
 			),
 			compact: true,
-			width: '5%'
+			width: '6%'
 		},
 		{
 			name: 'Agrear',
@@ -101,7 +111,7 @@ export default function Datatable({ data }) {
 				</Button>
 			),
 			compact: true,
-			width: '8%'
+			width: '10%'
 		}
 	];
 	const carroDataTable = [
@@ -110,29 +120,44 @@ export default function Datatable({ data }) {
 			selector: 'factura',
 			sortable: true,
 			compact: true,
-			width: '14%'
+			width: '11%'
 		},
 		{
-			name: 'Fecha_Ped.',
+			name: 'Fecha_Fact.',
 			selector: 'fecha_hora_pedido',
 			sortable: true,
 			compact: true,
-			width: '14%',
+			width: '10%',
 			cell: (row) => <Moment format="DD/MM/YYYY">{row.fecha_hora_pedido}</Moment>
 		},
 		{
 			name: 'Cliente',
-			selector: 'Cliente',
+			selector: 'cliente_origen',
 			sortable: true,
 			compact: true,
-			width: '10%'
+			width: '8%'
 		},
 		{
 			name: 'Nombre',
-			selector: 'Nombre_Cliente',
+			selector: 'NOMBRE',
 			sortable: true,
 			compact: true,
-			width: '38%'
+			width: '34%'
+		},
+		{
+			name: 'Total',
+			selector: 'total_factura',
+			sortable: true,
+			compact: true,
+			width: '8%'
+		},
+
+		{
+			name: 'CondicionPago',
+			selector: 'condicion_pago',
+			sortable: true,
+			compact: true,
+			width: '4%'
 		},
 
 		{
@@ -146,7 +171,7 @@ export default function Datatable({ data }) {
 				</Button>
 			),
 			compact: true,
-			width: '11%'
+			width: '12%'
 		},
 		{
 			name: 'Eliminar',
@@ -209,34 +234,21 @@ export default function Datatable({ data }) {
 	];
 
 	const Carro = async (row, e) => {
-		//	console.log('slect Rows', row);
 		await agregarCarro(row);
 	};
 
 	const agregarCarro = async (selection) => {
 		setCarro([ ...carro, selection ]);
 		//Eliminamos de la tabla principal
-		console.log(searchResults);
+
 		const newDatos = searchResults.filter((data) => data.factura !== selection.factura);
-		console.log('nuewvo dato', newDatos);
 		setSearchResults(newDatos);
 		//Actualizamos tabla de TcargaPedidos temporal x para que no lo tome otro usuario
-		var url = Global.url;
-		var request = `/ticket/${selection.pedidos}`;
-
-		axios
-			.put(url + request, { numTicket: 'x' })
-			.then((res) => {
-				//console.log(res);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
 	};
 
 	const eliminarPedidoCarro = async (selection) => {
 		//Quitamos pedido del carro
-		const newCarro = carro.filter((data) => data.pedidos !== selection.pedidos);
+		const newCarro = carro.filter((data) => data.factura !== selection.factura);
 		setCarro(newCarro);
 
 		//agregamos a la lista de datos
@@ -298,17 +310,30 @@ export default function Datatable({ data }) {
 	};
 
 	const verModalCarro = () => {
-		datosAyudatentes();
+		datosMotoristas();
+		datosVehiculos();
 		setModalVerCarro(true);
 	};
 
-	//llenar datosayudantes
-	const datosAyudatentes = async () => {
+	//llenar Motoristas
+	const datosMotoristas = async () => {
 		var url = Global.url;
-		var request = '/ayudantesActivos';
+		var request = '/motoristas';
 
 		await axios.get(url + request).then((resp) => {
-			setDataAyudantes(resp.data);
+			const result = resp.data;
+			const newdata = result.filter((datos) => datos.estado === 'A');
+			setDataAyudantes(newdata);
+		});
+	};
+
+	const datosVehiculos = async () => {
+		var url = Global.url;
+		var request = '/vehiculos';
+		await axios.get(url + request).then((resp) => {
+			const result = resp.data;
+			const newdata = result.filter((datos) => datos.estado === 'A');
+			setDataVehiculos(newdata);
 		});
 	};
 
@@ -317,30 +342,48 @@ export default function Datatable({ data }) {
 			...formularioTicket,
 			[event.target.name]: event.target.value
 		});
+
+		if (event.target.name === 'vehiculo') {
+			vehiculobyid(event.target.value);
+		}
+		console.log(formularioTicket);
 	};
 
-	const guardarTicket = async () => {
-		if (formularioTicket.preparador === 'ND' || formularioTicket.preparador === '') {
-			swal({ title: 'Error', text: 'Selecione un Preparador', icon: 'error', button: 'Aceptar' });
+	const vehiculobyid = (id) => {
+		const vehiculoId = dataVehiculos.filter((data) => data.id === parseInt(id));
+		setKInicial(vehiculoId[0].kinicial);
+		setKfinal(vehiculoId[0].kfinal);
+	};
+
+	const guardarFlete = async () => {
+		if (
+			formularioTicket.preparador === 'ND' ||
+			formularioTicket.preparador === '' ||
+			formularioTicket.vehiculo === ''
+		) {
+			swal({ title: 'Error', text: 'Selecione un Motorista o Vehiculo', icon: 'error', button: 'Aceptar' });
 		} else {
 			var url = Global.url;
-			var request = '/createTicket';
+			var request = '/createFlete';
 
-			//Detalle de pedido
+			//Detalle de Flete
 
 			await axios
 				.post(url + request, {
-					preparador: formularioTicket.preparador,
-					cantPedido: carro.length,
+					motorista: formularioTicket.preparador,
+					vehiculo: formularioTicket.vehiculo,
+					cantFacturas: carro.length,
+					kinicial,
+					kfinal,
 					usuarioCreacion: name
 				})
 				.then((resp) => {
-					const result = resp.data.correl;
-					guardarTicketPedidos(result);
+					const result = resp.data.datos;
+					guardarFleteFacturas(result);
 
 					swal({
-						title: 'Ticket Creado con Exito',
-						text: `Numero de Ticket: ${result.toString()}`,
+						title: 'Flete Creado con Exito',
+						text: `Numero de Flete: ${result.toString()}`,
 						icon: 'success',
 						button: 'Aceptar'
 					});
@@ -348,17 +391,20 @@ export default function Datatable({ data }) {
 					setCarro([]);
 					setModalVerCarro(false);
 					setImpresion(true);
+				})
+				.catch((err) => {
+					console.log(err);
 				});
 		}
 	};
 
-	const guardarTicketPedidos = async (ticket) => {
+	const guardarFleteFacturas = async (flete) => {
 		var url = Global.url;
-		var request = '/createTicketPedidos';
+		var request = '/createFleteFacturas';
 		await axios
 			.post(url + request, {
-				ticket,
-				pedido: carro
+				flete,
+				facturas: carro
 			})
 			.then((resp) => {
 				console.log(resp);
@@ -366,6 +412,20 @@ export default function Datatable({ data }) {
 	};
 	const handleChange = (event) => {
 		setSearchTerm(event.target.value.toLowerCase());
+	};
+	const handleChangeKI = (event) => {
+		if (parseInt(kfinal) <= parseInt(event.target.value)) {
+			swal('Alerta!', 'Kilometraje Inicla no puede ser Mayor', 'error');
+		} else {
+			setKInicial(event.target.value);
+		}
+	};
+	const handleChangeKF = (event) => {
+		if (parseInt(kinicial) >= parseInt(event.target.value)) {
+			swal('Alerta!', 'Kilometraje Final no puede ser menor', 'error');
+		} else {
+			setKfinal(event.target.value);
+		}
 	};
 
 	return (
@@ -387,7 +447,7 @@ export default function Datatable({ data }) {
 							<div className="card-body">
 								{carro.length > 0 ? (
 									<Button variant="success" onClick={() => verModalCarro()}>
-										Generar Ticket {carro.length}
+										Generar Flete {carro.length}
 									</Button>
 								) : null}
 
@@ -454,22 +514,20 @@ export default function Datatable({ data }) {
 				<Modal size="lg" show={modalVerCarro} dialogClassName="modal-90w">
 					<ModalHeader>
 						<div>
-							<h3>Ticket </h3>
+							<h3>Flete </h3>
 						</div>
 					</ModalHeader>
 					<ModalBody>
 						<Form>
 							<Row>
-								<Col>
-									<Form.Label column sm="8">
-										Preparador:
+								<Col column sm="6">
+									<Form.Label column sm="2">
+										Motorista:
 									</Form.Label>
-								</Col>
-
-								<Col column sm="10">
 									<select
 										name="preparador"
 										className="form-control"
+										value={formularioTicket.preparador}
 										onChange={handleInputChange}
 										required
 									>
@@ -482,14 +540,61 @@ export default function Datatable({ data }) {
 										})}
 									</select>
 								</Col>
-							</Row>
 
+								<Col column sm="6">
+									<Form.Label column sm="2">
+										Vehiculo:
+									</Form.Label>
+									<select
+										name="vehiculo"
+										value={formularioTicket.vehiculo}
+										className="form-control"
+										onChange={handleInputChange}
+										required
+									>
+										{dataVehiculos.map((fbb) => {
+											return (
+												<option key={fbb.id} value={fbb.id}>
+													{fbb.placa}-{fbb.modelo}
+												</option>
+											);
+										})}
+									</select>
+								</Col>
+							</Row>
+							<br />
+							<Row>
+								<Col>
+									<Form.Label column sm="6">
+										Kilometraje Inicial:
+									</Form.Label>
+									<Form.Control
+										name="kinicial"
+										value={kinicial}
+										min="1"
+										type="number"
+										onChange={handleChangeKI}
+									/>
+								</Col>
+								<Col>
+									<Form.Label column sm="6">
+										Kilometraje Final:
+									</Form.Label>
+									<Form.Control
+										type="number"
+										name="kfinal"
+										min="1"
+										value={kfinal}
+										onChange={handleChangeKF}
+									/>
+								</Col>
+							</Row>
 							<br />
 							<DataTable columns={carroDataTable} data={carro} pagination />
 						</Form>
 					</ModalBody>
 					<ModalFooter>
-						<button className="btn btn-success " onClick={() => guardarTicket()}>
+						<button className="btn btn-success " onClick={() => guardarFlete()}>
 							Guardar
 						</button>
 						<button className="btn btn-danger" onClick={() => setModalVerCarro(false)}>
@@ -500,12 +605,12 @@ export default function Datatable({ data }) {
 				<Modal size="lg" show={impresion}>
 					<ModalHeader>
 						<div>
-							<h3>Ticket {idTicket} </h3>
+							<h3>Flete {idTicket} </h3>
 						</div>
 					</ModalHeader>
 					<ModalBody>
 						<Form />
-						<Impresion idTicket={idTicket} />
+						<Impresion flete={idTicket} />
 					</ModalBody>
 					<ModalFooter>
 						<button className="btn btn-danger" onClick={() => setImpresion(false)}>

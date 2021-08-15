@@ -102,7 +102,6 @@ export default function Index() {
 			...prevState,
 			[name]: value
 		}));
-		console.log(motoristaSeleccionado);
 	};
 	const abriModalInsertar = () => {
 		setModalNuevo(true);
