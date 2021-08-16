@@ -46,9 +46,9 @@ export default function Index() {
 			name: 'Fecha_Ped.',
 			selector: 'fecha_hora_pedido',
 			sortable: true,
-			cell: (row) => <Moment format="DD/MM/YYYY, h:mm">{row.fecha_hora_pedido}</Moment>,
+			cell: (row) => <Moment format="DD/MM/YYYY hh:mm">{row.fecha_hora_pedido}</Moment>,
 			compact: true,
-			width: '10%'
+			width: '12%'
 		},
 		{
 			name: 'Cliente',

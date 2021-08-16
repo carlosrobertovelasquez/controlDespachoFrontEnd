@@ -9,6 +9,8 @@ import Moment from 'react-moment';
 export default function Index() {
 	const [ data, setData ] = useState([]);
 
+	const formato = Global.formatoISO;
+	const Currency = Global.currency;
 	useEffect(
 		() => {
 			var url = Global.url;
@@ -59,7 +61,8 @@ export default function Index() {
 			sortable: true,
 			compact: true,
 			width: '10%',
-			cell: (row) => new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'USD' }).format(row.monto)
+			cell: (row) =>
+				new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(row.monto)
 		},
 		{
 			name: 'Direccion',

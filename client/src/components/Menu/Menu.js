@@ -118,10 +118,12 @@ export default function Menu() {
 									</Link>
 								</li>
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Flete Despacho</p>
-									</a>
+									<Link to="/flete">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Flete Despacho</p>
+										</a>
+									</Link>
 								</li>
 								<li className="nav-item">
 									<a href={url} className="nav-link">
@@ -176,16 +178,20 @@ export default function Menu() {
 							</a>
 							<ul className="nav nav-treeview">
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Grafico de Ticket</p>
-									</a>
+									<Link to="/GraficosTicket">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Grafico de Ticket</p>
+										</a>
+									</Link>
 								</li>
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Grafico de Flete</p>
-									</a>
+									<Link to="/GraficosFlete">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Grafico de Flete</p>
+										</a>
+									</Link>
 								</li>
 							</ul>
 						</li>

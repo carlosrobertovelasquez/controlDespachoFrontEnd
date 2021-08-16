@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import { Button, Modal, ModalBody, ModalFooter, Form, Row, Col } from 'react-bootstrap';
 import Global from '../../Global';
 import axios from 'axios';
 

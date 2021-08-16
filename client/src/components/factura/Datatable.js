@@ -28,6 +28,9 @@ export default function Datatable({ data }) {
 	const { auth } = useAuth();
 	const { name } = auth;
 
+	const formato = Global.formatoISO;
+	const Currency = Global.currency;
+
 	useEffect(
 		() => {
 			const result = data.filter((cliente) => cliente.NOMBRE.toLowerCase().includes(searchTerm));
@@ -49,7 +52,7 @@ export default function Datatable({ data }) {
 			sortable: true,
 			cell: (row) => <Moment format="DD/MM/YYYY">{row.fecha_hora_pedido}</Moment>,
 			compact: true,
-			width: '6%'
+			width: '7%'
 		},
 		{
 			name: 'Cliente',
@@ -78,7 +81,11 @@ export default function Datatable({ data }) {
 			selector: 'total_factura',
 			sortable: true,
 			compact: true,
-			width: '8%'
+			width: '8%',
+			cell: (row) =>
+				new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(
+					row.total_factura
+				)
 		},
 		{
 			name: 'CondicionPago',
@@ -149,7 +156,11 @@ export default function Datatable({ data }) {
 			selector: 'total_factura',
 			sortable: true,
 			compact: true,
-			width: '8%'
+			width: '12%',
+			cell: (row) =>
+				new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(
+					row.total_factura
+				)
 		},
 
 		{
@@ -238,7 +249,19 @@ export default function Datatable({ data }) {
 	};
 
 	const agregarCarro = async (selection) => {
-		setCarro([ ...carro, selection ]);
+		const existe = carro.findIndex((x) => x.factura === selection.factura);
+
+		if (existe === -1) {
+			setCarro([ ...carro, selection ]);
+		} else {
+			swal({
+				title: 'Error',
+				text: `Factura ${selection.factura} ya Fue agregada a Canasta`,
+				icon: 'error',
+				button: 'Aceptar'
+			});
+		}
+
 		//Eliminamos de la tabla principal
 
 		const newDatos = searchResults.filter((data) => data.factura !== selection.factura);
@@ -346,7 +369,6 @@ export default function Datatable({ data }) {
 		if (event.target.name === 'vehiculo') {
 			vehiculobyid(event.target.value);
 		}
-		console.log(formularioTicket);
 	};
 
 	const vehiculobyid = (id) => {
@@ -460,7 +482,7 @@ export default function Datatable({ data }) {
 				<Modal size="xl" show={modalEditar} dialogClassName="modal-90w">
 					<ModalHeader>
 						<div>
-							<h3>Pedido {dataPedido.PEDIDO} </h3>
+							<h3>Factura {dataPedido.PEDIDO} </h3>
 						</div>
 					</ModalHeader>
 					<ModalBody>

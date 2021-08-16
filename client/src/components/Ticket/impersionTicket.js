@@ -16,6 +16,7 @@ export default function ImpersionTicket({ idTicket }) {
 	axios.get(url + request).then((resp) => {
 		setDataTicketProductos(resp.data);
 	});
+
 	var request2 = `/ticketById/${idTicket}`;
 	axios.get(url + request2).then((resp) => {
 		setDataTicket(resp.data);

@@ -9,6 +9,10 @@ const ref = React.createRef();
 export default function ImpersionTicket({ flete }) {
 	const [ dataTicketProductos, setDataTicketProductos ] = useState([]);
 	const [ dataTicket, setDataTicket ] = useState([]);
+	const hoy = new Date();
+	const formato = Global.formatoISO;
+	const Currency = Global.currency;
+
 	const ticket = `FLETE-${flete}.pdf`;
 	var url = Global.url;
 	var request = `/detalleFlete/${flete}`;
@@ -70,7 +74,7 @@ export default function ImpersionTicket({ flete }) {
 			name: 'Fatura',
 			selector: 'factura',
 			compact: true,
-			width: '10%'
+			width: '12%'
 		},
 		{
 			name: 'Cliente',
@@ -88,7 +92,9 @@ export default function ImpersionTicket({ flete }) {
 			name: 'Total',
 			selector: 'total',
 			compact: true,
-			width: '15%'
+			width: '15%',
+			cell: (row) =>
+				new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(row.total)
 		},
 		{
 			name: 'Condicion Pag',
@@ -102,22 +108,42 @@ export default function ImpersionTicket({ flete }) {
 	return (
 		<React.Fragment>
 			<div style={{ margin: '1px 5px 10px 8px' }} ref={ref}>
-				<br />
-				<p style={{ margin: '1px 1px 2px 250px', alignContent: 'center' }}>FLETE:{flete}</p>
-				<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
-					{Global.empresa}
-				</p>
-				<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
-					Motorista:{dataTicket.nombre}-{dataTicket.nombre}
-				</p>
-				<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
-					Estado:{dataTicket.estado}
-				</p>
-				<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
-					Fecha Creacion:<Moment format="DD/MM/YYYY H:MM">{dataTicket.fecha}</Moment>
-				</p>
-				<div style={{ marginLeft: '10px' }}>
-					<DataTable columns={columnas} data={dataTicketProductos} customStyles={customStyles} pagination />
+				<div>
+					<br />
+					<p style={{ margin: '1px 1px 2px 250px', alignContent: 'center', fontSize: '25px' }}>
+						FLETE:{flete}
+					</p>
+					<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
+						{Global.empresa}
+					</p>
+					<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
+						Motorista:{dataTicket.nombre}-{dataTicket.nombre}
+					</p>
+					<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
+						Estado:{dataTicket.estado}
+					</p>
+					<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
+						Fecha Creacion:<Moment format="DD/MM/YYYY H:MM">{dataTicket.fecha}</Moment>
+					</p>
+					<p style={{ margin: '1px 1px 1px 250px', alignContent: 'center', fontSize: '12px' }}>
+						Kilometraje Inicial:{dataTicket.kinicial}----Kilometraje Final:{dataTicket.kfinal}
+					</p>
+
+					<div style={{ marginLeft: '10px' }}>
+						<DataTable columns={columnas} data={dataTicketProductos} customStyles={customStyles} />
+					</div>
+					<hr size="6" width="100%" align="left" color="green" />
+				</div>
+				<div>
+					<table style={{ width: '100%' }}>
+						<tr>
+							<td align="left">Motorista : </td>
+							<td align="left">Revisa: </td>
+							<td align="left">
+								Fecha y hora de Impresion : <Moment format="DD/MM/YYYY h:mm">{hoy}</Moment>{' '}
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<Pdf targetRef={ref} filename={ticket}>

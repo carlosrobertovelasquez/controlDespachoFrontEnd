@@ -10,6 +10,8 @@ import Ticket from '../pages/Ticket';
 import Fletes from '../pages/Fletes';
 import Facturas from '../pages/Facturas';
 import Admin from '../pages/Admin';
+import GraficosTicket from '../pages/Graficos/GraficosTicket';
+import GraficosFlete from '../pages/Graficos/GraficosFlete';
 import Error404 from '../pages/Error404';
 import AutorizacionPedido from '../pages/AutorizacionPedido';
 const routes = [
@@ -71,6 +73,18 @@ const routes = [
 		path: '/admin',
 		layout: LayoutBasic,
 		component: Admin,
+		exact: true
+	},
+	{
+		path: '/graficosTicket',
+		layout: LayoutBasic,
+		component: GraficosTicket,
+		exact: true
+	},
+	{
+		path: '/graficosFlete',
+		layout: LayoutBasic,
+		component: GraficosFlete,
 		exact: true
 	},
 	{
