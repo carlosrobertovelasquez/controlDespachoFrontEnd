@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Global from '../../Global';
 import axios from 'axios';
 
-import DatableFactura from '../../components/factura/Datatable';
+import DataTableFlete from '../../components/Flete/DataTableFlete';
 
 export default function ConsultaFlete() {
 	const [ data, setData ] = useState([]);
@@ -10,7 +10,7 @@ export default function ConsultaFlete() {
 	useEffect(
 		() => {
 			var url = Global.url;
-			var request = '/facturasDespacho';
+			var request = '/getTodosFletes';
 			const fecthPedidos = async () => {
 				await axios.get(url + request).then((resp) => {
 					setData(resp.data.datos);
@@ -44,9 +44,10 @@ export default function ConsultaFlete() {
 						</div>
 					</div>
 				</div>
-
-				<DatableFactura data={data} />
+				<DataTableFlete data={data} />
 			</div>
 		</React.Fragment>
 	);
 }
+
+//

@@ -4,7 +4,7 @@ import Global from '../../Global';
 import Moment from 'react-moment';
 import { Modal, ModalBody, ModalFooter, Form, Row, Col, Button, Container, Alert } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/ModalHeader';
-import Tablero from '../../components/Ticket/Tablero';
+import Impresion from '../../components/Liquidacion/Impresion';
 import useAuth from '../../hooks/useAuth';
 import DataTable from 'react-data-table-component';
 import swal from 'sweetalert';
@@ -17,6 +17,7 @@ export default function Index() {
 	const [ modalVerFlete, setModalVerFlete ] = useState(false);
 	const [ modalLiqudiacion, setModalLiqudiacion ] = useState(false);
 	const [ modalLiqudiacionFactura, setModalLiqudiacionFactura ] = useState(false);
+	const [ modalImpresion, setModalImpresion ] = useState(false);
 	const [ formularioLiquidacion, setFormularioLiquidacion ] = useState({
 		estado: 'L',
 		operacion: 'Operacion Completa',
@@ -320,6 +321,7 @@ export default function Index() {
 	};
 
 	const selecionarFacturaLiquidar = async (row, e) => {
+		setDatosModal(row);
 		setDatosModalLiquidar(row);
 		setModalLiqudiacionFactura(true);
 	};
@@ -374,7 +376,11 @@ export default function Index() {
 			}
 		});
 	};
-	const selecionarFleteImprimir = () => {};
+	const selecionarFleteImprimir = (row, e) => {
+		setDatosModal(row);
+		selecionarFlete(row.flete);
+		setModalImpresion(true);
+	};
 
 	const setActualizarFlete = async (flete, factura) => {
 		var url = Global.url;
@@ -398,7 +404,7 @@ export default function Index() {
 
 		setModalLiqudiacionFactura(false);
 		//setModalLiqudiacion(false);
-		NewArrayLiquidacion();
+		NewArrayLiquidacion(flete);
 	};
 
 	const setReasignarFlete = async (fleteAntiguo, factura, nuevoFlete) => {
@@ -423,10 +429,10 @@ export default function Index() {
 		setModalReasignar(false);
 		setModalLiqudiacionFactura(false);
 
-		NewArrayLiquidacion();
+		NewArrayLiquidacion(fleteAntiguo);
 	};
 
-	const NewArrayLiquidacion = () => {
+	const NewArrayLiquidacion = (flete) => {
 		const newDatos = datosModalFacturas.filter((data) => data.factura !== datosModalLiquidar.factura);
 		setDatosModalFacturas(newDatos);
 		if (datosModalFacturas.length === 1) {
@@ -688,6 +694,19 @@ export default function Index() {
 									Reasignar
 								</button>
 								<button className="btn btn-danger" onClick={() => setModalReasignar(false)}>
+									cerrar
+								</button>
+							</ModalFooter>
+						</Modal>
+						<Modal size="lg" show={modalImpresion} dialogClassName="modal-90w">
+							<ModalBody>
+								<Form>
+									<Impresion datosEncabezado={datosModal} datosDetalle={datosModalFacturas} />
+									<br />
+								</Form>
+							</ModalBody>
+							<ModalFooter>
+								<button className="btn btn-danger" onClick={() => setModalImpresion(false)}>
 									cerrar
 								</button>
 							</ModalFooter>

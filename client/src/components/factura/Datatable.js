@@ -9,7 +9,6 @@ import swal from 'sweetalert';
 import Impresion from '../../components/factura/ImpresionFlete';
 import useAuth from '../../hooks/useAuth';
 export default function Datatable({ data }) {
-	const [ datos, setDatos ] = useState([]);
 	const [ dataPedido, setDataPedido ] = useState([]);
 	const [ dataLineaPedido, setDataLineaPedido ] = useState([]);
 	const [ modalEditar, setModalEditar ] = useState(false);
