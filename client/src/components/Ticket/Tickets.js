@@ -206,7 +206,7 @@ export default function Tickets({ fbb }) {
 	};
 	const verModal = async (id, e) => {
 		e.preventDefault();
-		console.log(id);
+
 		ConsultarTicketPedidos(id);
 		ConsultarTicketProductos(id);
 		setModalTicket(true);
@@ -263,7 +263,7 @@ export default function Tickets({ fbb }) {
 						<i className="ion ion-bag" />
 					</div>
 					<a onClick={(e) => cambioEstado02(fbb.ticket, e)} href={url} className="small-box-footer">
-						Ir a Preprar
+						Ir a Preparar
 					</a>
 					<a href={url} onClick={(e) => verModal(fbb.ticket, e)} className="small-box-footer">
 						Ver Mas Informacion <i className="fas fa-arrow-circle-right" />

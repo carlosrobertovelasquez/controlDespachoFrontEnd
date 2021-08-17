@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Container, Alert } from 'react-bootstrap';
-
 import Ticket from './Tickets';
 
 export default function Tablero({ data }) {

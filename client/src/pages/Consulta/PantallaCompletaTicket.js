@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Global from '../../Global';
+import axios from 'axios';
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import Tablero from '../../components/Ticket/Tablero';
 
-export default function Index() {
+export default function PantallaCompletaTicket() {
 	const [ data, setData ] = useState([]);
 
 	useEffect(
@@ -22,37 +23,20 @@ export default function Index() {
 		},
 		[ data ]
 	);
-	const newData = data.slice(0, 12);
+	const handle = useFullScreenHandle();
 
 	return (
 		<React.Fragment>
-			<div className="content-wrapper">
-				<div className="content-header">
-					<div className="container-fluid">
-						<div className="row mb-2">
-							<div className="col-sm-6">
-								<h1 className="m-0 text-dark">Tickets</h1>
-							</div>
-							<div className="col-sm-6">
-								<ol className="breadcrumb float-sm-right">
-									<li className="breadcrumb-item">
-										<a href="/">Inicio</a>
-									</li>
-									<li className="breadcrumb-item active">Ticket</li>
-								</ol>
-							</div>
-						</div>
-					</div>
-				</div>
-
+			<button onClick={handle.enter}>click para Pantalla Completa</button>
+			<FullScreen handle={handle}>
 				<section className="content">
 					<div className="container-fluid">
 						<div className="row">
-							<Tablero data={newData} />
+							<Tablero data={data} />
 						</div>
 					</div>
 				</section>
-			</div>
+			</FullScreen>
 		</React.Fragment>
 	);
 }

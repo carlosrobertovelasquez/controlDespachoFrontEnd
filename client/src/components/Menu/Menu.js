@@ -126,10 +126,12 @@ export default function Menu() {
 									</Link>
 								</li>
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Liquidacion</p>
-									</a>
+									<Link to="/liquidacion">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Liquidacion</p>
+										</a>
+									</Link>
 								</li>
 							</ul>
 						</li>
@@ -143,28 +145,37 @@ export default function Menu() {
 							</a>
 							<ul className="nav nav-treeview">
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Ticket</p>
-									</a>
+									<Link to="/consultaTickets">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Ticket</p>
+										</a>
+									</Link>
+								</li>
+
+								<li className="nav-item">
+									<Link to="/consultaFletes">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Flete</p>
+										</a>
+									</Link>
 								</li>
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Flete</p>
-									</a>
+									<Link to="/consultaLiquidaciones">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Liquidacion</p>
+										</a>
+									</Link>
 								</li>
 								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Liquidacion</p>
-									</a>
-								</li>
-								<li className="nav-item">
-									<a href={url} className="nav-link">
-										<i className="far fa-circle nav-icon" />
-										<p>Pantalla Completa</p>
-									</a>
+									<Link to="/pantallaCompletaTickets">
+										<a href={url} className="nav-link">
+											<i className="far fa-circle nav-icon" />
+											<p>Pantalla Completa</p>
+										</a>
+									</Link>
 								</li>
 							</ul>
 						</li>

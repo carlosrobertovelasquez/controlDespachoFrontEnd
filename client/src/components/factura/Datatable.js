@@ -18,6 +18,7 @@ export default function Datatable({ data }) {
 	const [ dataAyudantes, setDataAyudantes ] = useState([]);
 	const [ dataVehiculos, setDataVehiculos ] = useState([]);
 	const [ formularioTicket, setFormularioTicket ] = useState({ preparador: '', vehiculo: '' });
+
 	const [ kinicial, setKInicial ] = useState(0);
 	const [ kfinal, setKfinal ] = useState(0);
 
@@ -592,9 +593,10 @@ export default function Datatable({ data }) {
 									</Form.Label>
 									<Form.Control
 										name="kinicial"
-										value={kinicial}
+										value={kfinal}
 										min="1"
 										type="number"
+										readOnly
 										onChange={handleChangeKI}
 									/>
 								</Col>
@@ -606,6 +608,7 @@ export default function Datatable({ data }) {
 										type="number"
 										name="kfinal"
 										min="1"
+										readOnly
 										value={kfinal}
 										onChange={handleChangeKF}
 									/>
