@@ -398,7 +398,7 @@ export default function Index() {
 										</Button>
 									) : null}
 
-									<DataTable columns={columnas} data={data} pagination />
+									<DataTable columns={columnas} data={data} pagination dense />
 								</div>
 							</div>
 						</div>

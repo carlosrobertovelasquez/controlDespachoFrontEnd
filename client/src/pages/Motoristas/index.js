@@ -30,8 +30,6 @@ export default function Index() {
 		fecthMotoristas();
 	}, []);
 
-	console.log(data);
-
 	const columnas = [
 		{
 			name: 'ID',
@@ -136,7 +134,7 @@ export default function Index() {
 									<Button variant="success" onClick={() => abriModalInsertar()}>
 										Nuevo Motorista
 									</Button>
-									<DataTable columns={columnas} data={data} pagination />
+									<DataTable columns={columnas} data={data} pagination dense />
 								</div>
 							</div>
 						</div>

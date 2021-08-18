@@ -20,6 +20,8 @@ import ConsultaTickets from '../pages/Consulta/ConsultaTickets';
 import ConsultaLiquidaciones from '../pages/Consulta/ConsultaLiquidacion';
 import PantallaCompletaTicket from '../pages/Consulta/PantallaCompletaTicket';
 import Liquidacion from '../pages/Liquidacion';
+import Global from '../Global';
+const ruta = Global.rutaServidor;
 const routes = [
 	{
 		path: '/',
@@ -28,7 +30,7 @@ const routes = [
 		exact: true
 	},
 	{
-		path: '/motoristas',
+		path: { ruta } + '/motoristas',
 		layout: LayoutBasic,
 		component: Motoristas,
 		exact: true

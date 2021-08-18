@@ -131,7 +131,7 @@ export default function Index() {
 						<div className="col-12">
 							<div className="card">
 								<div className="card-body">
-									<DataTable columns={columnas} data={data} pagination />
+									<DataTable columns={columnas} data={data} pagination dense />
 								</div>
 							</div>
 						</div>

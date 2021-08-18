@@ -3,6 +3,7 @@ import Auth from './pages/Auth';
 import { getToken, decodeToken, removeToken } from './utils/token';
 import AuthContext from './context/AuthContext';
 import Navigation from './routes/Navigation';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
 	const [ auth, setAuth ] = useState(undefined);
