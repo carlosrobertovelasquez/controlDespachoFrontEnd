@@ -21,8 +21,9 @@ export default function Register(props) {
 			.post(url + request, { name: nombre, email, password })
 			.then((resp) => {
 				if (resp.data.success) {
+					console.log(resp.data);
 					swal('Guardado', resp.data.message, 'success');
-					<Link to="/" />;
+					<Link to="/cd/user" />;
 					setShowLogin(true);
 				} else {
 					swal('Error ', resp.data.message, 'error');
@@ -61,101 +62,74 @@ export default function Register(props) {
 	});
 
 	return (
-		<div className="hold-transition register-page">
-			<div className="register-box">
-				<div className="register-logo">
-					<a href="../../index2.html">
-						<b>Control Despacho</b>
-					</a>
-				</div>
-
-				<div className="card">
-					<div className="card-body register-card-body">
-						<p className="login-box-msg">Registar un Nuevo Usuario</p>
-
-						<form onSubmit={formik.handleSubmit}>
-							<div className="input-group mb-3">
-								<input
-									type="text"
-									className="form-control"
-									placeholder="Nombre Completo"
-									{...formik.getFieldProps('nombre')}
-									onError={formik.errors.name && true}
-								/>
-								<div className="input-group-append">
-									<div className="input-group-text">
-										<span className="fas fa-user" />
-									</div>
-								</div>
-								{formik.touched.nombre && formik.errors.nombre ? (
-									<div>{formik.errors.nombre}</div>
-								) : null}
+		<div className="register-box">
+			<div className="card-body register-card-body">
+				<form onSubmit={formik.handleSubmit}>
+					<div className="input-group mb-3">
+						<input
+							type="text"
+							className="form-control"
+							placeholder="Nombre Completo"
+							{...formik.getFieldProps('nombre')}
+							onError={formik.errors.name && true}
+						/>
+						<div className="input-group-append">
+							<div className="input-group-text">
+								<span className="fas fa-user" />
 							</div>
-							<div className="input-group mb-3">
-								<input
-									type="email"
-									className="form-control"
-									placeholder="Correo"
-									{...formik.getFieldProps('email')}
-								/>
-								<div className="input-group-append">
-									<div className="input-group-text">
-										<span className="fas fa-envelope" />
-									</div>
-								</div>
-								{formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
-							</div>
-							<div className="input-group mb-3">
-								<input
-									type="password"
-									className="form-control"
-									placeholder="Password"
-									{...formik.getFieldProps('password')}
-								/>
-								<div className="input-group-append">
-									<div className="input-group-text">
-										<span className="fas fa-lock" />
-									</div>
-								</div>
-								{printFormError(formik, 'password')}
-							</div>
-							<div className="input-group mb-3">
-								<input
-									type="password"
-									className="form-control"
-									placeholder="Reconfirmar el password"
-									{...formik.getFieldProps('passwordRetype')}
-								/>
-								<div className="input-group-append">
-									<div className="input-group-text">
-										<span className="fas fa-lock" />
-									</div>
-								</div>
-								{printFormError(formik, 'passwordRetype')}
-							</div>
-							<div className="row">
-								<div className="col-7">
-									<div className="icheck-primary">
-										<input type="checkbox" id="agreeTerms" name="terms" value="agree" />
-										<label htmlFor="agreeTerms">
-											Acepto los <a href={url2}>términos</a>
-										</label>
-									</div>
-								</div>
-
-								<div className="col-5">
-									<button type="submit" className="btn btn-primary btn-block">
-										Registrarse
-									</button>
-								</div>
-							</div>
-						</form>
-
-						<a href="/" onClick={() => setShowLogin(true)} className="text-center">
-							Ya tengo un Usuario
-						</a>
+						</div>
+						{formik.touched.nombre && formik.errors.nombre ? <div>{formik.errors.nombre}</div> : null}
 					</div>
-				</div>
+					<div className="input-group mb-3">
+						<input
+							type="email"
+							className="form-control"
+							placeholder="Correo"
+							{...formik.getFieldProps('email')}
+						/>
+						<div className="input-group-append">
+							<div className="input-group-text">
+								<span className="fas fa-envelope" />
+							</div>
+						</div>
+						{formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+					</div>
+					<div className="input-group mb-3">
+						<input
+							type="password"
+							className="form-control"
+							placeholder="Password"
+							{...formik.getFieldProps('password')}
+						/>
+						<div className="input-group-append">
+							<div className="input-group-text">
+								<span className="fas fa-lock" />
+							</div>
+						</div>
+						{printFormError(formik, 'password')}
+					</div>
+					<div className="input-group mb-3">
+						<input
+							type="password"
+							className="form-control"
+							placeholder="Reconfirmar el password"
+							{...formik.getFieldProps('passwordRetype')}
+						/>
+						<div className="input-group-append">
+							<div className="input-group-text">
+								<span className="fas fa-lock" />
+							</div>
+						</div>
+						{printFormError(formik, 'passwordRetype')}
+					</div>
+					<div className="row">
+						<div className="col-5">
+							<button type="submit" className="btn btn-primary btn-block">
+								Registrarse
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	);

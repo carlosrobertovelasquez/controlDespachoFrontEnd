@@ -7,7 +7,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
 	const [ auth, setAuth ] = useState(undefined);
-	console.log(process.env);
 	useEffect(() => {
 		const token = getToken();
 		if (!token) {

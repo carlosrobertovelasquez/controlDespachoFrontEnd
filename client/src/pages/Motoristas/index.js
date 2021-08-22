@@ -112,14 +112,14 @@ export default function Index() {
 					<div className="container-fluid">
 						<div className="row mb-2">
 							<div className="col-sm-6">
-								<h1 className="m-0 text-dark">Motoristas</h1>
+								<h1 className="m-0 text-dark">Transportistas</h1>
 							</div>
 							<div className="col-sm-6">
 								<ol className="breadcrumb float-sm-right">
 									<li className="breadcrumb-item">
 										<a href="/">Inicio</a>
 									</li>
-									<li className="breadcrumb-item active">Motoristas</li>
+									<li className="breadcrumb-item active">Tranportistas</li>
 								</ol>
 							</div>
 						</div>
@@ -132,7 +132,7 @@ export default function Index() {
 							<div class="card">
 								<div class="card-body">
 									<Button variant="success" onClick={() => abriModalInsertar()}>
-										Nuevo Motorista
+										Nuevo Tranportistas
 									</Button>
 									<DataTable columns={columnas} data={data} pagination dense />
 								</div>
@@ -142,7 +142,7 @@ export default function Index() {
 					<Modal show={modalEditar}>
 						<ModalHeader>
 							<div>
-								<h3>Editar Vehiculo</h3>
+								<h3>Editar Tranportista</h3>
 							</div>
 						</ModalHeader>
 						<ModalBody>
@@ -223,7 +223,7 @@ export default function Index() {
 					<Modal show={modalNuevo}>
 						<ModalHeader>
 							<div>
-								<h3>Nuevo Motorista</h3>
+								<h3>Nuevo Transportista</h3>
 							</div>
 						</ModalHeader>
 						<ModalBody>

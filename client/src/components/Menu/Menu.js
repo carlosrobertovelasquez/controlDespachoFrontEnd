@@ -3,14 +3,17 @@ import React from 'react';
 import useAuth from '../../hooks/useAuth';
 import { Link } from 'react-router-dom';
 
-import { MdLocalShipping, MdPermContactCalendar, MdContentPaste } from 'react-icons/md';
+import { MdLocalShipping, MdPermContactCalendar, MdContentPaste, MdDesktopWindows } from 'react-icons/md';
 import { BsGearWideConnected } from 'react-icons/bs';
-import { FaStamp } from 'react-icons/fa';
+import { FaStamp, FaFileInvoiceDollar, FaLuggageCart, FaRegUser } from 'react-icons/fa';
+import { GiTicket, GiMoneyStack, GiHistogram } from 'react-icons/gi';
 import { Accordion } from 'react-bootstrap-accordion';
+import { Button } from 'react-bootstrap';
 import Global from '../../Global';
 export default function Menu() {
 	const { auth, logout } = useAuth();
 	const { name } = auth;
+
 	let url = '';
 	const onLogout = () => {
 		logout();
@@ -19,29 +22,35 @@ export default function Menu() {
 	return (
 		<React.Fragment>
 			<aside className="main-sidebar sidebar-dark-primary elevation-4">
-				<a href="/" className="brand-link">
-					<img
-						src={rutaServidor + `/dist/img/AdminLTELogo.png`}
-						alt="AdminLTE Logo"
-						className="brand-image img-circle elevation-3"
-					/>
-					<span className="brand-text font-weight-light">Control Despacho</span>
-				</a>
+				<Link to={rutaServidor} style={{ textDecoration: 'none' }}>
+					<a href={url} className="brand-link">
+						<img
+							src={rutaServidor + `/dist/img/AdminLTELogo.png`}
+							alt="AdminLTE Logo"
+							className="brand-image img-circle elevation-3"
+						/>
+						<span className="brand-text font-weight-light">Control Despacho</span>
+					</a>
+				</Link>
 				<div className="sidebar">
 					<div className="user-panel mt-3 pb-3 mb-3 d-flex">
 						<div className="image">
-							<a href="/">
-								<img
-									src={rutaServidor + `/dist/img/user2-160x160.jpg`}
-									alt="User Image"
-									className="img-circle elevation-2"
-								/>
-							</a>
+							<Link to={rutaServidor} style={{ textDecoration: 'none' }}>
+								<a href={url}>
+									<img
+										src={rutaServidor + `/dist/img/user2-160x160.jpg`}
+										alt="User Image"
+										className="img-circle elevation-2"
+									/>
+								</a>
+							</Link>
 						</div>
 						<div className="info">
-							<a href={url} className="d-block">
-								{name}
-							</a>
+							<Link style={{ textDecoration: 'none' }}>
+								<a href={url} className="d-block">
+									{name}
+								</a>
+							</Link>
 						</div>
 					</div>
 				</div>
@@ -56,29 +65,29 @@ export default function Menu() {
 								alignContent: 'center'
 							}}
 						>
-							<Link to={rutaServidor + `/vehiculos`}>
+							<Link to={rutaServidor + `/vehiculos`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<MdLocalShipping size={34} /> Vehiculos
+										<MdLocalShipping size={24} /> Vehiculos
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/motoristas`}>
+							<Link to={rutaServidor + `/Motoristas`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<MdPermContactCalendar size={34} />Motoristas
+										<MdPermContactCalendar size={24} /> Transportistas
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/preparadores`}>
+							<Link to={rutaServidor + `/preparadores`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
 										{' '}
-										<MdPermContactCalendar size={34} /> Preparadores
+										<MdPermContactCalendar size={24} /> Preparadores
 									</p>
 								</a>
 							</Link>
@@ -93,55 +102,55 @@ export default function Menu() {
 								alignContent: 'center'
 							}}
 						>
-							<Link to={rutaServidor + `/pedidos`}>
+							<Link to={rutaServidor + `/pedidos`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<MdContentPaste size={34} />Pedidos
+										<MdContentPaste size={24} /> Pedidos
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/autorizacion`}>
+							<Link to={rutaServidor + `/autorizacion`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<FaStamp size={34} /> Autorizacion de Pedidos
+										<FaStamp size={24} /> Autorizacion de Pedidos
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/ticket`}>
+							<Link to={rutaServidor + `/ticket`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Ticket Preparacion
+										<GiTicket size={24} /> Ticket Preparacion
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/factura`}>
+							<Link to={rutaServidor + `/factura`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Factura Despacho
+										<FaFileInvoiceDollar size={24} /> Factura Despacho
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/flete`}>
+							<Link to={rutaServidor + `/flete`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Flete Despacho
+										<FaLuggageCart size={24} /> Flete Despacho
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/liquidacion`}>
+							<Link to={rutaServidor + `/liquidacion`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Liquidacion
+										<GiMoneyStack size={24} /> Liquidacion
 									</p>
 								</a>
 							</Link>
@@ -156,28 +165,28 @@ export default function Menu() {
 								alignContent: 'center'
 							}}
 						>
-							<Link to={rutaServidor + `/consultaTickets`}>
+							<Link to={rutaServidor + `/consultaTickets`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Ticket
+										<GiTicket size={34} /> Ticket
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/consultaFletes`}>
+							<Link to={rutaServidor + `/consultaFletes`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Flete
+										<FaLuggageCart size={34} /> Flete
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/pantallaCompletaTickets`}>
+							<Link to={rutaServidor + `/pantallaCompletaTickets`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Pantalla Completa
+										<MdDesktopWindows size={34} /> Pantalla Completa
 									</p>
 								</a>
 							</Link>
@@ -192,19 +201,19 @@ export default function Menu() {
 								alignContent: 'center'
 							}}
 						>
-							<Link to={rutaServidor + `/GraficosTicket`}>
+							<Link to={rutaServidor + `/graficosTicket`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Grafico de Ticket
+										<GiHistogram size={24} /> Grafico de Ticket
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to={rutaServidor + `/GraficoFlete`}>
+							<Link to={rutaServidor + `/graficosFlete`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Grafico de Flete
+										<GiHistogram size={24} /> Grafico de Flete
 									</p>
 								</a>
 							</Link>
@@ -219,41 +228,36 @@ export default function Menu() {
 								alignContent: 'center'
 							}}
 						>
-							<Link to={rutaServidor + `/vehiculos`}>
+							<Link to={rutaServidor + `/User`} style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Usuarios
+										<FaRegUser size={24} /> Usuarios
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to="/vehiculos">
+							<Link to="/vehiculos" style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Desbloqueo de Ticket
+										<GiTicket size={24} /> Desbloqueo de Ticket
 									</p>
 								</a>
 							</Link>
 						</div>
 						<div style={{ background: '#343A40', height: '50px', marginBottom: '2px' }}>
-							<Link to="/vehiculos">
+							<Link to="/vehiculos" style={{ textDecoration: 'none' }}>
 								<a style={{ color: '#fff' }} href={url} className="nav-link">
 									<p>
-										<BsGearWideConnected size={34} />Parametros Generales
+										<BsGearWideConnected size={24} /> Parametros Generales
 									</p>
 								</a>
 							</Link>
 						</div>
 					</Accordion>
-					<Accordion title="Salir">
-						<a style={{ color: '#fff' }} href={url} onClick={onLogout} className="nav-link active">
-							<p>
-								Salir
-								<span className="right badge badge-danger">Salir</span>
-							</p>
-						</a>
-					</Accordion>
+					<Button style={{ width: '100%' }} variant="primary" size="lg" onClick={onLogout}>
+						Salir
+					</Button>{' '}
 				</div>
 			</aside>
 		</React.Fragment>

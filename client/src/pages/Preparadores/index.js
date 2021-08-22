@@ -5,6 +5,7 @@ import Global from '../../Global';
 import axios from 'axios';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import swal from 'sweetalert';
+
 export default function Index() {
 	const [ data, setData ] = useState([]);
 	const [ modalEditar, setModalEditar ] = useState(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Alert } from 'react-bootstrap';
+import { Container, Row, Spinner } from 'react-bootstrap';
 
 import Flete from './Flete';
 
@@ -9,12 +9,12 @@ export default function Tablero({ data }) {
 		<React.Fragment>
 			{data.length === 0 ? (
 				<Container>
-					<Alert variant="success">
-						<Alert.Heading>No Existen Fletes Por Procesar</Alert.Heading>
-						<p>Gracias por esperar .En unos minutos se realiza la carga</p>
-						<hr />
-						<p className="mb-0">Control de Despacho</p>
-					</Alert>
+					<Row className="justify-content-md-center">
+						<Spinner animation="border" role="status" />
+					</Row>
+					<Row className="justify-content-md-center">
+						<span className="text-center">Cargando...</span>
+					</Row>
 				</Container>
 			) : (
 				<React.Fragment>

@@ -107,6 +107,7 @@ export default function Tickets({ fbb }) {
 
 	const cambioEstado04 = (id, e) => {
 		e.preventDefault();
+		/*
 		swal({
 			title: 'Pasar a  Liquidar?',
 			text: 'Cambiara de Estado el Flete a Liqudiar',
@@ -117,10 +118,10 @@ export default function Tickets({ fbb }) {
 			if (!willDelete) {
 				var url = Global.url;
 				var request = `/fleteEstado/${id} `;
-
 				axios.put(url + request, { estado: '04' }).then((resp) => {});
 			}
 		});
+		*/
 	};
 	const verModal = async (id, e) => {
 		e.preventDefault();
@@ -142,6 +143,9 @@ export default function Tickets({ fbb }) {
 			{fbb.estado === '01' && (
 				<div className="small-box bg-success">
 					<div className="inner">
+						<Button className="bg-success" onClick={() => HangleImpresion(fbb.flete)}>
+							Imprimir
+						</Button>
 						<Row>
 							<Col>
 								<h4> T.Trancurrido :</h4>
@@ -151,9 +155,6 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h3>Flete:{fbb.flete}</h3>
 							</Col>
-							<Button className="bg-success" onClick={() => HangleImpresion(fbb.flete)}>
-								Imprimir
-							</Button>
 						</Row>
 
 						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
@@ -182,6 +183,9 @@ export default function Tickets({ fbb }) {
 			{fbb.estado === '02' && (
 				<div className="small-box bg-warning">
 					<div className="inner">
+						<Button className="bg-warning" onClick={() => HangleImpresion(fbb.flete)}>
+							Imprimir
+						</Button>
 						<Col>
 							<h4> Tiempo Trancurrido :</h4>
 						</Col>
@@ -189,9 +193,6 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h3>Ticket:{fbb.flete}</h3>
 							</Col>
-							<Button className="bg-warning" onClick={() => HangleImpresion(fbb.flete)}>
-								Imprimir
-							</Button>
 						</Row>
 						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
 						<p style={{ margin: '0px' }}>Vehiculo</p>
@@ -218,6 +219,9 @@ export default function Tickets({ fbb }) {
 			{fbb.estado === '03' && (
 				<div key={fbb.flete} className="small-box  bg-danger">
 					<div className="inner">
+						<Button className="bg-danger" onClick={() => HangleImpresion(fbb.flete)}>
+							Imprimir
+						</Button>
 						<Col>
 							<h4> Tiempo Trancurrido :</h4>
 						</Col>
@@ -225,9 +229,6 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h3>Ticket:{fbb.flete}</h3>
 							</Col>
-							<Button className="bg-danger" onClick={() => HangleImpresion(fbb.flete)}>
-								Imprimir
-							</Button>
 						</Row>
 						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
 						<p style={{ margin: '0px' }}>Vehiculo</p>

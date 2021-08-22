@@ -8,20 +8,21 @@ export default function Index() {
 
 	useEffect(
 		() => {
-			const timer = setTimeout(() => {
-				var url = Global.url;
-				var request = '/getTicketAll';
-				const fecthPedidos = async () => {
-					await axios.get(url + request).then((resp) => {
-						setData(resp.data);
-					});
-				};
-				fecthPedidos();
-			}, 2000);
-			return () => clearTimeout(timer);
+			//const timer = setTimeout(() => {
+			var url = Global.url;
+			var request = '/getTicketAll';
+			const fecthPedidos = async () => {
+				await axios.get(url + request).then((resp) => {
+					setData(resp.data);
+				});
+			};
+			fecthPedidos();
+			//}, 2000);
+			//return () => clearTimeout(timer);
 		},
 		[ data ]
 	);
+
 	const newData = data.slice(0, 12);
 
 	return (

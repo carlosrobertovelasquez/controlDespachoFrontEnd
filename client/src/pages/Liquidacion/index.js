@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Global from '../../Global';
 import Moment from 'react-moment';
-import { Modal, ModalBody, ModalFooter, Form, Row, Col, Button, Container, Alert } from 'react-bootstrap';
+import { Modal, ModalBody, ModalFooter, Form, Row, Col, Button, Container, Spinner } from 'react-bootstrap';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import Impresion from '../../components/Liquidacion/Impresion';
 import useAuth from '../../hooks/useAuth';
@@ -27,7 +27,7 @@ export default function Index() {
 	const [ kfinal, setKfinal ] = useState('');
 	const [ valorMinimo, setValorMinimo ] = useState('');
 	const [ placaVehiculo, setPlacaVehiculo ] = useState('');
-	const [ datosOperaciones, setdatosOperaciones ] = useState([]);
+
 	const [ datosOperacionesActivo, setdatosOperacionesActivo ] = useState([]);
 	const [ modalReasignar, setModalReasignar ] = useState(false);
 	const [ fleteReasignar, setFleteReasignar ] = useState('');
@@ -49,7 +49,7 @@ export default function Index() {
 				fecthPedidos();
 				const newdata = dataNew.filter((e) => e.estado === 'POR LIQUIDAR');
 				setData(newdata);
-			}, 2000);
+			}, 1000);
 			return () => clearTimeout(timer);
 		},
 		[ data, dataNew ]
@@ -71,7 +71,7 @@ export default function Index() {
 			cell: (row) => <Moment format="DD/MM/YYYY">{row.fecha}</Moment>
 		},
 		{
-			name: 'Motorista',
+			name: 'Transportista',
 			selector: 'nombre',
 			sortable: true,
 			compact: true,
@@ -279,7 +279,6 @@ export default function Index() {
 	const selecionarFleteLiquidar = (row, e) => {
 		if (row.estado === 'POR LIQUIDAR') {
 			setKfinal(row.Kfinal);
-
 			setValorMinimo(row.Kfinal);
 			setPlacaVehiculo(row.placa);
 			selecionarFlete(row.flete);
@@ -301,12 +300,13 @@ export default function Index() {
 		var url = Global.url;
 		var request = `/getOperacionesAll`;
 		await axios.get(url + request).then((resp) => {
-			setdatosOperaciones(resp.data.datos);
-			newDatosOperaciones();
+			const datos = resp.data.datos;
+
+			newDatosOperaciones(datos);
 		});
 	};
-	const newDatosOperaciones = () => {
-		const newDatos = datosOperaciones.filter((x) => x.Estado === 'A');
+	const newDatosOperaciones = (datos) => {
+		const newDatos = datos.filter((x) => x.Estado === 'A');
 		setdatosOperacionesActivo(newDatos);
 	};
 
@@ -456,7 +456,7 @@ export default function Index() {
 										<a href="/">Inicio</a>
 									</li>
 
-									<li className="breadcrumb-item active">Pedidos</li>
+									<li className="breadcrumb-item active">Flete a Liquidar</li>
 								</ol>
 							</div>
 						</div>
@@ -465,12 +465,12 @@ export default function Index() {
 
 				{data.length === 0 ? (
 					<Container>
-						<Alert variant="success">
-							<Alert.Heading>No Existen Fletes Por Procesar</Alert.Heading>
-							<p>Gracias por esperar .En unos minutos se realiza la carga</p>
-							<hr />
-							<p className="mb-0">Control de Despacho</p>
-						</Alert>
+						<Row className="justify-content-md-center">
+							<Spinner animation="border" role="status" />
+						</Row>
+						<Row className="justify-content-md-center">
+							<span className="text-center">Cargando...</span>
+						</Row>
 					</Container>
 				) : (
 					<React.Fragment>

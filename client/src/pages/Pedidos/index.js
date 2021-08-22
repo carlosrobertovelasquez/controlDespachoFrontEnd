@@ -319,6 +319,7 @@ export default function Index() {
 	};
 
 	const guardarTicket = async () => {
+		console.log(formularioTicket.preparador);
 		if (formularioTicket.preparador === 'ND' || formularioTicket.preparador === '') {
 			swal({ title: 'Error', text: 'Selecione un Preparador', icon: 'error', button: 'Aceptar' });
 		} else {
@@ -474,12 +475,8 @@ export default function Index() {
 									</Col>
 
 									<Col column sm="10">
-										<select
-											name="preparador"
-											className="form-control"
-											onChange={handleInputChange}
-											required
-										>
+										<select name="preparador" className="form-control" onChange={handleInputChange}>
+											<option value="">Selecione un Preparador</option>
 											{dataAyudantes.map((fbb) => {
 												return (
 													<option key={fbb.id} value={fbb.id}>

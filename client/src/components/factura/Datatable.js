@@ -372,9 +372,14 @@ export default function Datatable({ data }) {
 	};
 
 	const vehiculobyid = (id) => {
-		const vehiculoId = dataVehiculos.filter((data) => data.id === parseInt(id));
-		setKInicial(vehiculoId[0].kinicial);
-		setKfinal(vehiculoId[0].kfinal);
+		if (id === '') {
+			setKInicial(0);
+			setKfinal(0);
+		} else {
+			const vehiculoId = dataVehiculos.filter((data) => data.id === parseInt(id));
+			setKInicial(vehiculoId[0].kinicial);
+			setKfinal(vehiculoId[0].kfinal);
+		}
 	};
 
 	const guardarFlete = async () => {
@@ -544,7 +549,7 @@ export default function Datatable({ data }) {
 							<Row>
 								<Col column sm="6">
 									<Form.Label column sm="2">
-										Motorista:
+										Transportista:
 									</Form.Label>
 									<select
 										name="preparador"
@@ -553,6 +558,7 @@ export default function Datatable({ data }) {
 										onChange={handleInputChange}
 										required
 									>
+										<option value="">Seleciones un Transportista...</option>
 										{dataAyudantes.map((fbb) => {
 											return (
 												<option key={fbb.id} value={fbb.id}>
@@ -574,6 +580,7 @@ export default function Datatable({ data }) {
 										onChange={handleInputChange}
 										required
 									>
+										<option value="">Seleciones un Vehiculo...</option>
 										{dataVehiculos.map((fbb) => {
 											return (
 												<option key={fbb.id} value={fbb.id}>

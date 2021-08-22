@@ -12,6 +12,7 @@ import useTimeAgo from '../../hooks/useTimeAgo';
 export default function Tickets({ fbb }) {
 	const now = new Date();
 	const fecha = fbb.fecha_inicio;
+
 	//Moment.duration(now.diff(end, 'hours'));
 	let url = '';
 	const [ dataIdTicket, setDataIdTicket ] = useState('');
@@ -231,6 +232,9 @@ export default function Tickets({ fbb }) {
 			{fbb.estado === '01' && (
 				<div className="small-box bg-success">
 					<div className="inner">
+						<Button className="bg-success" onClick={() => HangleImpresion(fbb.ticket)}>
+							Imprimir
+						</Button>
 						<Row>
 							<Col>
 								<h4>
@@ -247,9 +251,6 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h3>Ticket:{fbb.ticket}</h3>
 							</Col>
-							<Button className="bg-success" onClick={() => HangleImpresion(fbb.ticket)}>
-								Imprimir
-							</Button>
 						</Row>
 
 						<p>Preprarador:{fbb.nombre}</p>
@@ -273,6 +274,9 @@ export default function Tickets({ fbb }) {
 			{fbb.estado === '02' && (
 				<div className="small-box bg-warning">
 					<div className="inner">
+						<Button className="bg-warning" onClick={() => HangleImpresion(fbb.ticket)}>
+							Imprimir
+						</Button>
 						<Col>
 							<h4>
 								{' '}
@@ -287,9 +291,6 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h3>Ticket:{fbb.ticket}</h3>
 							</Col>
-							<Button className="bg-warning" onClick={() => HangleImpresion(fbb.ticket)}>
-								Imprimir
-							</Button>
 						</Row>
 						<p>Preprarador:{fbb.nombre}</p>
 						<p>
@@ -314,6 +315,9 @@ export default function Tickets({ fbb }) {
 			{fbb.estado === '03' && (
 				<div key={fbb.ticket} className="small-box  bg-danger">
 					<div className="inner">
+						<Button className="bg-danger" onClick={() => HangleImpresion(fbb.ticket)}>
+							Imprimir
+						</Button>
 						<Col>
 							<h4>
 								{' '}
@@ -328,9 +332,6 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h3>Ticket:{fbb.ticket}</h3>
 							</Col>
-							<Button className="bg-danger" onClick={() => HangleImpresion(fbb.ticket)}>
-								Imprimir
-							</Button>
 						</Row>
 						<p>Preprarador:{fbb.nombre}</p>
 						<p>
@@ -343,7 +344,7 @@ export default function Tickets({ fbb }) {
 						<i className="ion ion-bag" />
 					</div>
 					<a onClick={(e) => cambioEstado04(fbb.ticket, e)} href={url} className="small-box-footer">
-						Revisar
+						En Revisión
 					</a>
 					<a href={url} onClick={(e) => verModal(fbb.ticket, e)} className="small-box-footer">
 						Ver Mas Informacion <i className="fas fa-arrow-circle-right" />

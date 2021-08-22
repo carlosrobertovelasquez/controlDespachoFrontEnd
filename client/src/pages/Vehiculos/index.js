@@ -3,7 +3,9 @@ import DataTable from 'react-data-table-component';
 import { Button, Modal, ModalBody, ModalFooter, Form, Row, Col } from 'react-bootstrap';
 import Global from '../../Global';
 import axios from 'axios';
+import * as Yup from 'yup';
 import ModalHeader from 'react-bootstrap/ModalHeader';
+import { Formik, useFormik, ErrorMessage } from 'formik';
 
 export default function Index() {
 	const [ data, setData ] = useState([]);
@@ -18,7 +20,7 @@ export default function Index() {
 		estado: '',
 		ano: '',
 		propio: '',
-		combustible: ''
+		combustible: 'GASOLINA'
 	});
 
 	useEffect(() => {
@@ -26,14 +28,11 @@ export default function Index() {
 		var request = '/vehiculos';
 		const fecthVehiculos = async () => {
 			await axios.get(url + request).then((resp) => {
-				console.log(resp.data);
 				setData(resp.data);
 			});
 		};
 		fecthVehiculos();
 	}, []);
-
-	console.log(data);
 
 	const columnas = [
 		{
@@ -129,17 +128,42 @@ export default function Index() {
 		caso === 'Editar' && setModalEditar(true);
 	};
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setVehiculoSeleccionado((prevState) => ({
-			...prevState,
-			[name]: value
-		}));
-		console.log(vehiculoSeleccionado);
+		setVehiculoSeleccionado({
+			...vehiculoSeleccionado,
+			[e.target.name]: e.target.value
+		});
 	};
+
 	const abriModalInsertar = () => {
 		setModalNuevo(true);
 		setVehiculoSeleccionado(null);
 	};
+	const guardarVehiculo = () => {
+		console.log(vehiculoSeleccionado);
+	};
+
+	const formik = useFormik({
+		initialValues: {
+			placa: '',
+			modelo: '',
+			kinical: '0',
+			kifinal: '0',
+			tTranporte: 'P',
+			ano: '',
+			tCombustible: ''
+		},
+		validationSchema: Yup.object({
+			placa: Yup.string().required('Placa No Puede ser Vacio'),
+			modelo: Yup.string().required('Requerido'),
+			kinicial: Yup.number().required('Dato Requerido'),
+			kfinal: Yup.number().required('Dato Requerido'),
+			kano: Yup.date().required('Dato Requerido')
+		}),
+		onSubmit: (values) => {
+			console.log(values.placa, values.modelo);
+		}
+	});
+
 	return (
 		<React.Fragment>
 			<div className="content-wrapper">
@@ -284,103 +308,106 @@ export default function Index() {
 							</div>
 						</ModalHeader>
 						<ModalBody>
-							<Form>
-								<Row>
-									<Col>
-										<Form.Label>Placa:</Form.Label>
-										<Form.Control
-											placeholder="Numero de Placa"
-											name="placa"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.placa}
-											onChange={handleChange}
-										/>
-									</Col>
-									<Col>
-										<Form.Label>Modelo:</Form.Label>
-										<Form.Control
-											placeholder="Modelo"
-											name="modelo"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.modelo}
-											onChange={handleChange}
-										/>
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										<Form.Label>K.Incial:</Form.Label>
-										<Form.Control
-											placeholder="Kilometraje Inicial"
-											name="kinicial"
-											type="number"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.kinicial}
-											onChange={handleChange}
-										/>
-									</Col>
-									<Col>
-										<Form.Label>K.Final:</Form.Label>
-										<Form.Control
-											placeholder="Kilometraje Final"
-											name="kfinal"
-											type="number"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.kfinal}
-											onChange={handleChange}
-										/>
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										<Form.Label>Tipo Transporte:</Form.Label>
-										<Form.Control
-											placeholder="Tipo de Transporte"
-											name="propio"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.propio}
-											onChange={handleChange}
-										/>
-									</Col>
-									<Col>
-										<Form.Label>Año:</Form.Label>
-										<Form.Control
-											placeholder="Año del Vehiculo"
-											name="ano"
-											type="number"
-											min="1800"
-											max="2050"
-											step="1"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.ano}
-											onChange={handleChange}
-										/>
-									</Col>
-								</Row>
-								<Row>
-									<Col>
-										<Form.Label>Tipo Combustible:</Form.Label>
-										<Form.Control
-											placeholder="Tipo Combustible"
-											name="combustible"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.combustible}
-											onChange={handleChange}
-										/>
-									</Col>
+							<div className="card">
+								<div className="card-body login-card-body">
+									<form onSubmit={formik.handleSubmit}>
+										<div className=" form-row ">
+											<div className="form-group col-md-6">
+												<label for="placa">Placa</label>
+												<input
+													type="text"
+													className="form-control"
+													placeholder="Digite Numero de Placa"
+													{...formik.getFieldProps('placa')}
+													onError={formik.errors.placa && true}
+												/>
 
-									<Col>
-										<Form.Label>Estado:</Form.Label>
-										<Form.Check
-											type="checkbox"
-											label="Activo"
-											name="estado"
-											value={vehiculoSeleccionado && vehiculoSeleccionado.estado}
-											onChange={handleChange}
-										/>
-									</Col>
-								</Row>
-							</Form>
+												{formik.touched.placa && formik.errors.placa ? (
+													<div>{formik.errors.placa}</div>
+												) : null}
+											</div>
+											<div className="form-group col-md-6">
+												<label for="Modelo">Modelo</label>
+												<input
+													type="text"
+													className="form-control"
+													placeholder="Digite Modelo"
+													{...formik.getFieldProps('modelo')}
+												/>
+											</div>
+										</div>
+										<div className=" form-row ">
+											<div className="form-group col-md-6">
+												<label for="placa">Kilometraje Inicial</label>
+												<input
+													type="number"
+													className="form-control"
+													placeholder="Digite Kilo. Inicial"
+													{...formik.getFieldProps('kinicial')}
+												/>
+											</div>
+											<div className="form-group col-md-6">
+												<label for="Modelo">Kilometraje Final</label>
+												<input
+													type="number"
+													className="form-control"
+													placeholder="Digite Kilometraje Final"
+													{...formik.getFieldProps('kfinal')}
+												/>
+											</div>
+										</div>
+
+										<div className=" form-row ">
+											<div className="form-group col-md-6">
+												<label for="placa">Tipo Transporte</label>
+												<input
+													type="number"
+													className="form-control"
+													placeholder="seleciones Tipo Transporte"
+													{...formik.getFieldProps('tTransporte')}
+												/>
+											</div>
+											<div className="form-group col-md-6">
+												<label for="Modelo">Año</label>
+												<input
+													type="year"
+													className="form-control"
+													placeholder="Digite Año"
+													{...formik.getFieldProps('ano')}
+												/>
+											</div>
+										</div>
+										<div className=" form-row ">
+											<div className="form-group col-md-6">
+												<label for="placa">Tipo Combustible</label>
+												<input
+													type="select"
+													className="form-control"
+													placeholder="Digite Kilo. Inicial"
+													{...formik.getFieldProps('tTransporte')}
+												/>
+											</div>
+										</div>
+
+										<div className="row">
+											<div className="col-5">
+												<button type="submit" className="btn btn-primary btn-block">
+													Registrarse
+												</button>
+											</div>
+											<div className="col-6">
+												<button
+													className="btn btn-danger btn-block"
+													onClick={() => setModalNuevo(false)}
+												>
+													cancelar
+												</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
 						</ModalBody>
-						<ModalFooter>
-							<button className="btn btn-primary">Insertar</button>
-							<button className="btn btn-danger" onClick={() => setModalNuevo(false)}>
-								cancelar
-							</button>
-						</ModalFooter>
 					</Modal>
 				</section>
 			</div>

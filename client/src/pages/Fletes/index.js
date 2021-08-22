@@ -6,32 +6,16 @@ import Tablero from '../../components/Flete/Tablero';
 export default function Index() {
 	const [ data, setData ] = useState([]);
 
-	/*
-	useEffect(() => {
-		var url = Global.url;
-		var request = '/getTicketAll';
-		const fecthPedidos = async () => {
-			await axios.get(url + request).then((resp) => {
-				setData(resp.data);
-			});
-		};
-		fecthPedidos();
-	}, []);
-*/
-
 	useEffect(
 		() => {
-			const timer = setTimeout(() => {
-				var url = Global.url;
-				var request = '/getAllFletes';
-				const fecthPedidos = async () => {
-					await axios.get(url + request).then((resp) => {
-						setData(resp.data.datos);
-					});
-				};
-				fecthPedidos();
-			}, 2000);
-			return () => clearTimeout(timer);
+			var url = Global.url;
+			var request = '/getAllFletes';
+			const fecthPedidos = async () => {
+				await axios.get(url + request).then((resp) => {
+					setData(resp.data.datos);
+				});
+			};
+			fecthPedidos();
 		},
 		[ data ]
 	);

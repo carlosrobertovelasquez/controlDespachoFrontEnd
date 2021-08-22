@@ -110,11 +110,7 @@ export default function Login() {
 									</div>
 								</form>
 
-								<p className="mb-0">
-									<span href={url} onClick={() => setShowLogin(!showLogin)} className="text-center">
-										Registar un Nuevo Usuario
-									</span>
-								</p>
+								<p className="mb-0" />
 							</div>
 						</div>
 					</div>
