@@ -13,6 +13,9 @@ export default function Tickets({ fbb }) {
 	const now = new Date();
 	const fecha = fbb.fecha_inicio;
 
+	let fecha1 = Date.parse(fbb.fecha_inicio);
+	const fecha2 = useTimeAgo(fecha1);
+
 	//Moment.duration(now.diff(end, 'hours'));
 	let url = '';
 	const [ dataIdTicket, setDataIdTicket ] = useState('');
@@ -239,11 +242,8 @@ export default function Tickets({ fbb }) {
 							<Col>
 								<h4>
 									{' '}
-									T.Trancurrido :
-									<Moment interval={1000} fromNow>
-										{fecha}
-									</Moment>{' '}
-									Min
+									T. Trancurrido :
+									{fecha2}
 								</h4>
 							</Col>
 						</Row>
@@ -280,11 +280,8 @@ export default function Tickets({ fbb }) {
 						<Col>
 							<h4>
 								{' '}
-								Tiempo Trancurrido :
-								<Moment diff={fecha} unit="hours">
-									{now}
-								</Moment>{' '}
-								Horas
+								T. Trancurrido :
+								{fecha2}
 							</h4>
 						</Col>
 						<Row>
@@ -294,7 +291,7 @@ export default function Tickets({ fbb }) {
 						</Row>
 						<p>Preprarador:{fbb.nombre}</p>
 						<p>
-							Tiempo Preparacion: <Moment format="DD/MM/YYYY h:mm">
+							T. Preparacion: <Moment format="DD/MM/YYYY h:mm">
 								{fbb.fecha_inicio_preparacion}
 							</Moment>{' '}
 						</p>
@@ -321,11 +318,8 @@ export default function Tickets({ fbb }) {
 						<Col>
 							<h4>
 								{' '}
-								Tiempo Trancurrido :
-								<Moment diff={fecha} unit="hours">
-									{now}
-								</Moment>{' '}
-								Horas
+								T. Trancurrido :
+								{fecha2}
 							</h4>
 						</Col>
 						<Row>
