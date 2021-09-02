@@ -19,6 +19,8 @@ export default function Tickets({ fbb }) {
 	const formato = Global.formatoISO;
 	const Currency = Global.currency;
 
+	let fecha1 = Date.parse(fbb.fecha);
+	const fecha2 = useTimeAgo(fecha1);
 	const montoTotal = new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(
 		fbb.montototal
 	);
@@ -148,7 +150,7 @@ export default function Tickets({ fbb }) {
 						</Button>
 						<Row>
 							<Col>
-								<h4> T.Trancurrido :</h4>
+								<h4> T.Trancurrido :{fecha2}</h4>
 							</Col>
 						</Row>
 						<Row>
@@ -187,7 +189,7 @@ export default function Tickets({ fbb }) {
 							Imprimir
 						</Button>
 						<Col>
-							<h4> Tiempo Trancurrido :</h4>
+							<h4> T.Trancurrido :{fecha2}</h4>
 						</Col>
 						<Row>
 							<Col>
@@ -223,7 +225,7 @@ export default function Tickets({ fbb }) {
 							Imprimir
 						</Button>
 						<Col>
-							<h4> Tiempo Trancurrido :</h4>
+							<h4> T.Trancurrido :{fecha2}</h4>
 						</Col>
 						<Row>
 							<Col>
