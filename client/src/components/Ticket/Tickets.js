@@ -240,8 +240,8 @@ export default function Tickets({ fbb }) {
 								<h4>
 									{' '}
 									T.Trancurrido :
-									<Moment diff={fecha} unit="minutes">
-										{now}
+									<Moment interval={1000} fromNow>
+										{fecha}
 									</Moment>{' '}
 									Min
 								</h4>

@@ -11,6 +11,7 @@ export default function Index() {
 		() => {
 			var url = Global.url;
 			var request = '/facturasDespacho';
+
 			const fecthPedidos = async () => {
 				await axios.get(url + request).then((resp) => {
 					setData(resp.data.datos);
@@ -21,7 +22,7 @@ export default function Index() {
 		},
 		[ data ]
 	);
-
+	console.log('desde papa', data);
 	return (
 		<React.Fragment>
 			<div className="content-wrapper">

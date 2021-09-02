@@ -370,7 +370,7 @@ export default function Index() {
 											<div className="form-group col-md-6">
 												<label for="Modelo">Año</label>
 												<input
-													type="year"
+													type="number"
 													className="form-control"
 													placeholder="Digite Año"
 													{...formik.getFieldProps('ano')}

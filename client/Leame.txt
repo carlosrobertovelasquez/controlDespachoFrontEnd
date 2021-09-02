@@ -6,3 +6,4 @@ Caso #3 Boton de Impresion tanto en Flete como en Ticket salen mal se corre para
 Caso #4 Se resueleve el Tiempo de carga para las facturas y pedidos igual als liquidaciones se tenia un timer para la carga pero se quita s se deja el HOOK de useEffect
 Caso #5 se Resuelve el problemas de los combos ya que esta poniendo espacios en blanco en  ticket y Flete
 Caso #6 Se Resuele la selecion de  concepto para la liquidacion.
+Caso #7 Se resuleve el Problema de que la factura al selecionar aparece en el mismo grid ya se resolvio eso

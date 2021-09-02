@@ -9,6 +9,7 @@ import swal from 'sweetalert';
 import Impresion from '../../components/factura/ImpresionFlete';
 import useAuth from '../../hooks/useAuth';
 export default function Datatable({ data }) {
+	console.log('hijo', data);
 	const [ dataPedido, setDataPedido ] = useState([]);
 	const [ dataLineaPedido, setDataLineaPedido ] = useState([]);
 	const [ modalEditar, setModalEditar ] = useState(false);
@@ -21,7 +22,7 @@ export default function Datatable({ data }) {
 	const [ kinicial, setKInicial ] = useState(0);
 	const [ kfinal, setKfinal ] = useState(0);
 
-	const [ searchResults, setSearchResults ] = useState([]);
+	const [ searchResults, setSearchResults ] = useState(data);
 	const [ searchTerm, setSearchTerm ] = useState('');
 	const [ impresion, setImpresion ] = useState(false);
 	const [ idTicket, setIdTicket ] = useState('');
@@ -31,13 +32,13 @@ export default function Datatable({ data }) {
 	const formato = Global.formatoISO;
 	const Currency = Global.currency;
 
-	useEffect(
-		() => {
-			const result = data.filter((cliente) => cliente.NOMBRE.toLowerCase().includes(searchTerm));
-			setSearchResults(result);
-		},
-		[ searchTerm, data ]
-	);
+	useEffect(() => {
+		//const result = data.filter((cliente) => cliente.NOMBRE.toLowerCase().includes(searchTerm));
+		setSearchResults(data);
+	}, []);
+
+	//setSearchResults(data);
+
 	const columnas = [
 		{
 			name: 'Factura',
@@ -50,9 +51,9 @@ export default function Datatable({ data }) {
 			name: 'Fecha_Fact.',
 			selector: 'fecha',
 			sortable: true,
-			cell: (row) => <Moment format="DD/MM/YYYY">{row.fecha_hora_pedido}</Moment>,
+			cell: (row) => <Moment format="DD/MM/YYYY">{row.fecha}</Moment>,
 			compact: true,
-			width: '7%'
+			width: '8%'
 		},
 		{
 			name: 'Cliente',
@@ -92,7 +93,7 @@ export default function Datatable({ data }) {
 			selector: 'condicion_pago',
 			sortable: true,
 			compact: true,
-			width: '4%'
+			width: '10%'
 		},
 		{
 			name: 'Ver',
@@ -274,24 +275,13 @@ export default function Datatable({ data }) {
 		const newCarro = carro.filter((data) => data.factura !== selection.factura);
 		setCarro(newCarro);
 
-		//agregamos a la lista de datos
-		var url = Global.url;
-		var request = `/ticket/${selection.pedidos}`;
-
-		axios
-			.put(url + request, { numTicket: '0' })
-			.then((res) => {
-				//refrescar datos Generales
-				ActualizarDatos();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		//refrescar datos Generales
+		ActualizarDatos();
 	};
 
 	const ActualizarDatos = () => {
 		var url = Global.url;
-		var request = '/pedidos';
+		var request = '/facturasDespacho';
 		const fecthPedidos = async () => {
 			await axios.get(url + request).then((resp) => {
 				setSearchResults(resp.data);
@@ -461,16 +451,6 @@ export default function Datatable({ data }) {
 				<div className="row">
 					<div className="col-12">
 						<div className="card">
-							<Row md={4}>
-								<Col>
-									<Form.Control
-										type="text"
-										placeholder="Buscar Por Nombre Cliente"
-										value={searchTerm}
-										onChange={handleChange}
-									/>
-								</Col>
-							</Row>
 							<div className="card-body">
 								{carro.length > 0 ? (
 									<Button variant="success" onClick={() => verModalCarro()}>
