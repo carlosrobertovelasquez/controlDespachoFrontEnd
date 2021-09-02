@@ -319,7 +319,6 @@ export default function Index() {
 	};
 
 	const guardarTicket = async () => {
-		console.log(formularioTicket.preparador);
 		if (formularioTicket.preparador === 'ND' || formularioTicket.preparador === '') {
 			swal({ title: 'Error', text: 'Selecione un Preparador', icon: 'error', button: 'Aceptar' });
 		} else {

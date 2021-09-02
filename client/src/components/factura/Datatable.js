@@ -9,7 +9,7 @@ import swal from 'sweetalert';
 import Impresion from '../../components/factura/ImpresionFlete';
 import useAuth from '../../hooks/useAuth';
 export default function Datatable({ data }) {
-	console.log('hijo', data);
+	const [ datos, setDatos ] = useState([]);
 	const [ dataPedido, setDataPedido ] = useState([]);
 	const [ dataLineaPedido, setDataLineaPedido ] = useState([]);
 	const [ modalEditar, setModalEditar ] = useState(false);
@@ -21,7 +21,6 @@ export default function Datatable({ data }) {
 
 	const [ kinicial, setKInicial ] = useState(0);
 	const [ kfinal, setKfinal ] = useState(0);
-
 	const [ searchResults, setSearchResults ] = useState(data);
 	const [ searchTerm, setSearchTerm ] = useState('');
 	const [ impresion, setImpresion ] = useState(false);
@@ -32,12 +31,13 @@ export default function Datatable({ data }) {
 	const formato = Global.formatoISO;
 	const Currency = Global.currency;
 
-	useEffect(() => {
-		//const result = data.filter((cliente) => cliente.NOMBRE.toLowerCase().includes(searchTerm));
-		setSearchResults(data);
-	}, []);
-
-	//setSearchResults(data);
+	useEffect(
+		() => {
+			//const result = data.filter((cliente) => cliente.NOMBRE.toLowerCase().includes(searchTerm));
+			setDatos(data);
+		},
+		[ data ]
+	);
 
 	const columnas = [
 		{
@@ -427,9 +427,7 @@ export default function Datatable({ data }) {
 				console.log(resp);
 			});
 	};
-	const handleChange = (event) => {
-		setSearchTerm(event.target.value.toLowerCase());
-	};
+
 	const handleChangeKI = (event) => {
 		if (parseInt(kfinal) <= parseInt(event.target.value)) {
 			swal('Alerta!', 'Kilometraje Inicla no puede ser Mayor', 'error');
