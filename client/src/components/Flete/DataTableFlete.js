@@ -60,7 +60,9 @@ export default function DataTableFlete({ data }) {
 			name: 'Fecha Saldia',
 			selector: 'fechahorasalida',
 			sortable: true,
-			cell: (row) => <Moment format="DD/MM/YYYY hh:mm">{row.fechahorasalida}</Moment>,
+			cell: (row) => (
+				<div>{row.fechahorasalida ? <Moment format="DD/MM/YYYY hh:mm">{row.fechahorasalida}</Moment> : ''}</div>
+			),
 			compact: true,
 			width: '8%'
 		},
@@ -68,16 +70,31 @@ export default function DataTableFlete({ data }) {
 			name: 'Fecha Llegada',
 			selector: 'fecha',
 			sortable: true,
-			cell: (row) => <Moment format="DD/MM/YYYY hh:mm">{row.fechahorallegada}</Moment>,
+			cell: (row) => (
+				<div>
+					{row.fechahorallegada ? <Moment format="DD/MM/YYYY hh:mm">{row.fechahorallegada}</Moment> : ''}
+				</div>
+			),
 			compact: true,
 			width: '8%'
 		},
 
 		{
-			name: 'Tiempo',
+			name: 'Tiempo (H)',
 			selector: 'tiempo',
 			sortable: true,
 			compact: true,
+			cell: (row) => (
+				<div>
+					{row.fechahorallegada ? (
+						<Moment diff={row.fechahorasalida} unit="hours">
+							{row.fechahorallegada}
+						</Moment>
+					) : (
+						''
+					)}
+				</div>
+			),
 			width: '5%'
 		},
 		{
