@@ -19,6 +19,9 @@ export default function Tickets({ fbb }) {
 	const formato = Global.formatoISO;
 	const Currency = Global.currency;
 
+	let fecha1 = Date.parse(fbb.fecha);
+	const fecha2 = useTimeAgo(fecha1);
+
 	const montoTotal = new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(
 		fbb.montototal
 	);
@@ -148,7 +151,7 @@ export default function Tickets({ fbb }) {
 						</Button>
 						<Row>
 							<Col>
-								<h4> T.Trancurrido :</h4>
+								<h4> T.Trancurrido :{fecha2}</h4>
 							</Col>
 						</Row>
 						<Row>
@@ -157,11 +160,9 @@ export default function Tickets({ fbb }) {
 							</Col>
 						</Row>
 
-						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
-						<p style={{ margin: '0px' }}>Vehiculo</p>
-						<p style={{ margin: '0px' }}>
-							Placa:{fbb.placa} Modelo:{fbb.modelo}
-						</p>
+						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre.toUpperCase()}</p>
+						<p style={{ margin: '0px' }}>Vehiculo Placa:{fbb.placa}</p>
+						<p style={{ margin: '0px' }}>Modelo:{fbb.modelo}</p>
 
 						<p style={{ margin: '0px' }}>Cantidad Facturas: {fbb.numerofacturas}</p>
 						<p style={{ margin: '0px' }}>Monto Total: {montoTotal}</p>
@@ -187,18 +188,16 @@ export default function Tickets({ fbb }) {
 							Imprimir
 						</Button>
 						<Col>
-							<h4> Tiempo Trancurrido :</h4>
+							<h4> T.Trancurrido :{fecha2}</h4>
 						</Col>
 						<Row>
 							<Col>
 								<h3>Ticket:{fbb.flete}</h3>
 							</Col>
 						</Row>
-						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
-						<p style={{ margin: '0px' }}>Vehiculo</p>
-						<p style={{ margin: '0px' }}>
-							Placa:{fbb.placa} Modelo:{fbb.modelo}
-						</p>
+						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre.toUpperCase()}</p>
+						<p style={{ margin: '0px' }}>Vehiculo Placa:{fbb.placa} </p>
+						<p style={{ margin: '0px' }}>Modelo:{fbb.modelo}</p>
 						<p style={{ margin: '0px' }}>Cantidad Facturas: {fbb.numerofacturas}</p>
 						<p style={{ margin: '0px' }}>Monto Total: {montoTotal}</p>
 						<p>
@@ -223,18 +222,16 @@ export default function Tickets({ fbb }) {
 							Imprimir
 						</Button>
 						<Col>
-							<h4> Tiempo Trancurrido :</h4>
+							<h4> T.Trancurrido :{fecha2}</h4>
 						</Col>
 						<Row>
 							<Col>
 								<h3>Ticket:{fbb.flete}</h3>
 							</Col>
 						</Row>
-						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
-						<p style={{ margin: '0px' }}>Vehiculo</p>
-						<p style={{ margin: '0px' }}>
-							Placa:{fbb.placa} Modelo:{fbb.modelo}
-						</p>
+						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre.toUpperCase()}</p>
+						<p style={{ margin: '0px' }}>Vehiculo Placa:{fbb.placa}</p>
+						<p style={{ margin: '0px' }}>Modelo:{fbb.modelo}</p>
 						<p style={{ margin: '0px' }}>Cantidad Facturas: {fbb.numerofacturas}</p>
 						<p style={{ margin: '0px' }}>Monto Total: {montoTotal}</p>
 						<p>

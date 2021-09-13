@@ -253,7 +253,7 @@ export default function Tickets({ fbb }) {
 							</Col>
 						</Row>
 
-						<p>Preprarador:{fbb.nombre}</p>
+						<p>Preprarador:{fbb.nombre.toUpperCase()}</p>
 						<p>
 							Fecha Cargado:<Moment format="DD/MM/YYYY h:mm">{fbb.fecha_inicio}</Moment>{' '}
 						</p>
@@ -289,7 +289,7 @@ export default function Tickets({ fbb }) {
 								<h3>Ticket:{fbb.ticket}</h3>
 							</Col>
 						</Row>
-						<p>Preprarador:{fbb.nombre}</p>
+						<p>Preprarador:{fbb.nombre.toUpperCase()}</p>
 						<p>
 							T. Preparacion: <Moment format="DD/MM/YYYY h:mm">
 								{fbb.fecha_inicio_preparacion}
@@ -327,7 +327,7 @@ export default function Tickets({ fbb }) {
 								<h3>Ticket:{fbb.ticket}</h3>
 							</Col>
 						</Row>
-						<p>Preprarador:{fbb.nombre}</p>
+						<p>Preprarador:{fbb.nombre.toUpperCase()}</p>
 						<p>
 							Fecha Cargado:<Moment format="DD/MM/YYYY, h:mm">{fbb.fecha_inicio}</Moment>
 						</p>
