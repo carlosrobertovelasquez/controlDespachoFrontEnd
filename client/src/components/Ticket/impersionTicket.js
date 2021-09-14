@@ -100,7 +100,7 @@ export default function ImpersionTicket({ idTicket }) {
 		},
 		{
 			name: 'Cantidad_Pre',
-			selector: 'CANTIDADx',
+			selector: 'CANTIDAD',
 			sortable: true,
 			compact: true,
 			width: '10%'

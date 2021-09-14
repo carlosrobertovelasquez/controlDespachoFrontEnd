@@ -203,8 +203,10 @@ export default function Tickets({ fbb }) {
 			if (!willDelete) {
 				var url = Global.url;
 				var request = `/ticketEstado/${id} `;
-
 				axios.put(url + request, { estado: '04' }).then((resp) => {});
+				//Actualizamos cantidades de pedidods en softland
+				var request2 = `/ticketEstado2/${id} `;
+				axios.put(url + request2).then((resp) => {});
 			}
 		});
 	};
