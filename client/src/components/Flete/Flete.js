@@ -21,7 +21,6 @@ export default function Tickets({ fbb }) {
 
 	let fecha1 = Date.parse(fbb.fecha);
 	const fecha2 = useTimeAgo(fecha1);
-
 	const montoTotal = new Intl.NumberFormat({ formato }, { style: 'currency', currency: `${Currency}` }).format(
 		fbb.montototal
 	);
