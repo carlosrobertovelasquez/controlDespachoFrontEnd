@@ -3,6 +3,8 @@ import DataTable from 'react-data-table-component';
 import { Button, Modal, ModalBody, ModalFooter, Form, Row, Col, Alert } from 'react-bootstrap';
 import Global from '../../../Global';
 import axios from 'axios';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 import swal from 'sweetalert';
 import ModalHeader from 'react-bootstrap/ModalHeader';
 import useAuth from '../../../hooks/useAuth';
@@ -12,12 +14,16 @@ export default function Index() {
 	const [ modalEditar, setModalEditar ] = useState(false);
 	const [ modalNuevo, setModalNuevo ] = useState(false);
 	const [ showLogin, setShowLogin ] = useState(false);
+	const [ dataAyudantes, setDataAyudantes ] = useState([]);
+	const [ modalCambioClave, setModalCambioClave ] = useState(false);
+	const [ lengPassword, setLengPassword ] = useState('');
 	const [ usuarioSeleccionado, setUsuarioSeleccionado ] = useState({
 		id: '',
 		nombre: '',
 		email: '',
 		password: '',
-		estado: ''
+		estado: '',
+		idPreparador: ''
 	});
 
 	const [ activo, setActivo ] = useState(true);
@@ -39,40 +45,48 @@ export default function Index() {
 		[ data ]
 	);
 
-	const register = () => {
-		if (
-			usuarioSeleccionado.nombre === undefined ||
-			usuarioSeleccionado.email === undefined ||
-			usuarioSeleccionado.password === undefined ||
-			usuarioSeleccionado.nombre === '' ||
-			usuarioSeleccionado.email === '' ||
-			usuarioSeleccionado.password === ''
-		) {
-			swal('Error ', 'Datos no Pueden ir Vacios', 'error');
-		} else {
-			var url = Global.url;
-			var request = '/users';
-			axios
-				.post(url + request, {
-					name: usuarioSeleccionado.nombre,
-					email: usuarioSeleccionado.email,
-					password: usuarioSeleccionado.password
-				})
-				.then((resp) => {
-					if (resp.data.success) {
-						console.log(resp.data);
-						swal('Guardado', resp.data.message, 'success');
-
-						setShowLogin(true);
-						setModalNuevo(false);
-					} else {
-						swal('Error ', resp.data.message, 'error');
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+	const formik = useFormik({
+		initialValues: {
+			nombre: '',
+			email: '',
+			password: ''
+		},
+		validationSchema: Yup.object({
+			nombre: Yup.string().min(5, 'Nombre tiene que ser mayor a 5 Caracteres').required('Requerido'),
+			email: Yup.string().email('Direccion No es correcta').required('Requerido'),
+			password: Yup.string()
+				.min(5, 'Tiene que ser Mayor de 5 Caracteres')
+				.max(30, 'Tiene que ser Menor que 30 Caracteres')
+				.required('Requerido')
+		}),
+		onSubmit: (values) => {
+			register(values.nombre, values.email, values.password);
 		}
+	});
+
+	const register = (nombre, email, password) => {
+		var url = Global.url;
+		var request = '/users';
+		axios
+			.post(url + request, {
+				name: nombre,
+				email: email,
+				password: password
+			})
+			.then((resp) => {
+				if (resp.data.success) {
+					console.log(resp.data);
+					swal('Guardado', resp.data.message, 'success');
+
+					setShowLogin(true);
+					setModalNuevo(false);
+				} else {
+					swal('Error ', resp.data.message, 'error');
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	const columnas = [
@@ -101,10 +115,14 @@ export default function Index() {
 			selector: 'active',
 			sortable: true
 		},
-
 		{
-			name: 'Editar',
-			selector: 'editar',
+			name: 'Preparador',
+			selector: 'idPreparador',
+			sortable: true
+		},
+		{
+			name: 'Cambio Clave',
+			selector: 'clave',
 			right: true,
 			ignoreRowClick: true,
 			cell: (row) => (
@@ -113,34 +131,40 @@ export default function Index() {
 				</Button>
 			)
 		},
-		{
-			name: 'Eliminar',
-			selector: 'eliminar',
 
+		{
+			name: 'Editar',
+			selector: 'editar',
+			right: true,
 			ignoreRowClick: true,
 			cell: (row) => (
-				<Button className="btn btn-danger" onClick={(e) => eliminar(row, e)}>
-					Eliminar
+				<Button className="btn btn-primary" onClick={(e) => cambioClave(row, 'Editar')}>
+					Cambio Clave
 				</Button>
 			)
 		}
 	];
 
-	const eliminar = (row, e) => {
-		console.log('slect Rows', row.id);
-	};
-
 	const selecionarUsuario = (elemento, caso) => {
 		setUsuarioSeleccionado(elemento);
+		datosAyudatentes();
 		setRolUser(elemento.Rol);
 		if (elemento.active === 'ACTIVO') {
 			setActivo(true);
 		} else {
 			setActivo(false);
 		}
-
 		caso === 'Editar' && setModalEditar(true);
-		console.log(elemento);
+	};
+	const cambioClave = (elemento, caso) => {
+		setUsuarioSeleccionado(elemento);
+		setModalCambioClave(true);
+		setRolUser(elemento.Rol);
+		if (elemento.active === 'ACTIVO') {
+			setActivo(true);
+		} else {
+			setActivo(false);
+		}
 	};
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -151,11 +175,61 @@ export default function Index() {
 	};
 	const abriModalInsertar = () => {
 		setModalNuevo(true);
-
-		setUsuarioSeleccionado(null);
 	};
 	const cambioRadioRol = (e) => {
 		setRolUser(e.target.value);
+	};
+	const datosAyudatentes = async () => {
+		var url = Global.url;
+		var request = '/ayudantesActivos';
+
+		await axios.get(url + request).then((resp) => {
+			setDataAyudantes(resp.data);
+		});
+	};
+	const updateUser = async () => {
+		var tipoUser = '';
+		if (roluser === 'ADMINISTRADOR') {
+			tipoUser = 'ADMIN';
+		} else {
+			tipoUser = 'dbo';
+		}
+		var estado = '';
+		if (activo) {
+			estado = '1';
+		} else {
+			estado = '0';
+		}
+		var url = Global.url;
+		var request = `/users/${usuarioSeleccionado.id}`;
+		await axios
+			.put(url + request, {
+				name: usuarioSeleccionado.name,
+				rol: tipoUser,
+				active: estado,
+				idPreparador: usuarioSeleccionado.idPreparador
+			})
+			.then((resp) => {
+				setModalEditar(false);
+			});
+	};
+	const updatePassword = async () => {
+		setLengPassword(usuarioSeleccionado.password);
+
+		if (usuarioSeleccionado.password === '' || lengPassword.length < 5) {
+			swal('Error', 'No pueder estar en Blanco password o menos de 6 caracteres', 'success');
+		} else {
+			var url = Global.url;
+			var request = `/user/${usuarioSeleccionado.id}`;
+			await axios
+				.put(url + request, {
+					password: lengPassword
+				})
+				.then((resp) => {
+					swal('Mensaje', resp.data.message, 'success');
+					setModalCambioClave(false);
+				});
+		}
 	};
 	return (
 		<React.Fragment>
@@ -226,6 +300,29 @@ export default function Index() {
 															required
 														/>
 													</div>
+													<div>
+														<select
+															name="idPreparador"
+															className="form-control"
+															onChange={handleChange}
+														>
+															<option
+																value={
+																	usuarioSeleccionado &&
+																	usuarioSeleccionado.idPreparador
+																}
+															>
+																{usuarioSeleccionado.idPreparador}
+															</option>
+															{dataAyudantes.map((fbb) => {
+																return (
+																	<option key={fbb.id} value={fbb.id}>
+																		{fbb.id}-{fbb.nombre}
+																	</option>
+																);
+															})}
+														</select>
+													</div>
 													<div className="input-group mb-3">
 														<div className="form-check">
 															<input
@@ -278,7 +375,9 @@ export default function Index() {
 								</Form>
 							</ModalBody>
 							<ModalFooter>
-								<button className="btn btn-primary">Actualizar</button>
+								<button className="btn btn-primary" onClick={() => updateUser()}>
+									Actualizar
+								</button>
 								<button className="btn btn-danger" onClick={() => setModalEditar(false)}>
 									cancelar
 								</button>
@@ -292,69 +391,140 @@ export default function Index() {
 								</div>
 							</ModalHeader>
 							<ModalBody>
-								<Form>
-									<div className="register-box">
-										<div className="card-body register-card-body">
-											<form>
-												<div className="input-group mb-3">
-													<input
-														type="text"
-														name="nombre"
-														value={usuarioSeleccionado && usuarioSeleccionado.nombre}
-														onChange={handleChange}
-														className="form-control"
-														placeholder="Nombre Completo"
-														required
-													/>
-													<div className="input-group-append">
-														<div className="input-group-text">
-															<span className="fas fa-user" />
-														</div>
+								<div className="register-box">
+									<div className="card-body register-card-body">
+										<form onSubmit={formik.handleSubmit}>
+											<div className="input-group mb-3">
+												<input
+													type="text"
+													name="nombre"
+													{...formik.getFieldProps('nombre')}
+													className="form-control"
+													placeholder="Nombre Completo"
+													required
+												/>
+												<div className="input-group-append">
+													<div className="input-group-text">
+														<span className="fas fa-user" />
 													</div>
 												</div>
-												<div className="input-group mb-3">
-													<input
-														type="email"
-														name="email"
-														value={usuarioSeleccionado && usuarioSeleccionado.email}
-														onChange={handleChange}
-														className="form-control"
-														placeholder="Correo"
-														autoComplete="off"
-													/>
-													<div className="input-group-append">
-														<div className="input-group-text">
-															<span className="fas fa-envelope" />
-														</div>
+												{formik.touched.nombre && formik.errors.nombre ? (
+													<div>{formik.errors.nombre}</div>
+												) : null}
+											</div>
+											<div className="input-group mb-3">
+												<input
+													type="email"
+													name="email"
+													{...formik.getFieldProps('email')}
+													className="form-control"
+													placeholder="Correo"
+													autoComplete="off"
+												/>
+												<div className="input-group-append">
+													<div className="input-group-text">
+														<span className="fas fa-envelope" />
 													</div>
 												</div>
-												<div className="input-group mb-3">
-													<input
-														type="password"
-														name="password"
-														value={usuarioSeleccionado && usuarioSeleccionado.password}
-														onChange={handleChange}
-														className="form-control"
-														placeholder="Password"
-														autoComplete="off"
-													/>
-													<div className="input-group-append">
-														<div className="input-group-text">
-															<span className="fas fa-lock" />
-														</div>
+												{formik.touched.email && formik.errors.email ? (
+													<div>{formik.errors.email}</div>
+												) : null}
+											</div>
+											<div className="input-group mb-3">
+												<input
+													type="password"
+													name="password"
+													{...formik.getFieldProps('password')}
+													className="form-control"
+													placeholder="Password"
+													autoComplete="off"
+												/>
+												<div className="input-group-append">
+													<div className="input-group-text">
+														<span className="fas fa-lock" />
 													</div>
 												</div>
-											</form>
-										</div>
+												{formik.touched.password && formik.errors.password ? (
+													<div>{formik.errors.password}</div>
+												) : null}
+											</div>
+											<div className="row">
+												<div className="col-5">
+													<button type="submit" className="btn btn-danger btn-block">
+														Registrarse
+													</button>
+												</div>
+												<div className="col-5">
+													<button
+														onClick={() => setModalNuevo(false)}
+														className="btn btn-primary btn-block"
+													>
+														Cancelar
+													</button>
+												</div>
+											</div>
+										</form>
 									</div>
+								</div>
+							</ModalBody>
+						</Modal>
+						<Modal show={modalCambioClave}>
+							<ModalHeader>
+								<div>
+									<h3>Cambio Password</h3>
+								</div>
+							</ModalHeader>
+							<ModalBody>
+								<Form>
+									<Form>
+										<div className="register-box">
+											<div className="card-body register-card-body">
+												<form>
+													<div className="input-group mb-3">
+														<input
+															type="email"
+															name="email"
+															value={usuarioSeleccionado && usuarioSeleccionado.email}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Correo"
+															autoComplete="off"
+															disabled="true"
+														/>
+													</div>
+													<div className="input-group mb-3">
+														<input
+															type="text"
+															name="name"
+															value={usuarioSeleccionado && usuarioSeleccionado.name}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Nombre Completo"
+															disabled="true"
+														/>
+													</div>
+													<div>
+														<input
+															type="text"
+															name="password"
+															value={usuarioSeleccionado && usuarioSeleccionado.password}
+															onChange={handleChange}
+															className="form-control"
+															placeholder="Nuevo Password"
+														/>
+													</div>
+												</form>
+											</div>
+										</div>
+									</Form>
 								</Form>
 							</ModalBody>
 							<ModalFooter>
-								<button className="btn btn-danger" onClick={() => register()}>
-									Registar
+								<button className="btn btn-primary" onClick={() => updatePassword()}>
+									Actualizar
 								</button>
-								<button className="btn btn-primary" onClick={() => setModalNuevo(false)}>
-									Cancelar
+								<button className="btn btn-danger" onClick={() => setModalCambioClave(false)}>
+									cancelar
 								</button>
 							</ModalFooter>
 						</Modal>

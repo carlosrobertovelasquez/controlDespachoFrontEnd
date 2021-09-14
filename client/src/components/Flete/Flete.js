@@ -159,11 +159,9 @@ export default function Tickets({ fbb }) {
 							</Col>
 						</Row>
 
-						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
-						<p style={{ margin: '0px' }}>Vehiculo</p>
-						<p style={{ margin: '0px' }}>
-							Placa:{fbb.placa} Modelo:{fbb.modelo}
-						</p>
+						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre.toUpperCase()}</p>
+						<p style={{ margin: '0px' }}>Vehiculo Placa:{fbb.placa}</p>
+						<p style={{ margin: '0px' }}>Modelo:{fbb.modelo}</p>
 
 						<p style={{ margin: '0px' }}>Cantidad Facturas: {fbb.numerofacturas}</p>
 						<p style={{ margin: '0px' }}>Monto Total: {montoTotal}</p>
@@ -196,11 +194,9 @@ export default function Tickets({ fbb }) {
 								<h3>Ticket:{fbb.flete}</h3>
 							</Col>
 						</Row>
-						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
-						<p style={{ margin: '0px' }}>Vehiculo</p>
-						<p style={{ margin: '0px' }}>
-							Placa:{fbb.placa} Modelo:{fbb.modelo}
-						</p>
+						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre.toUpperCase()}</p>
+						<p style={{ margin: '0px' }}>Vehiculo Placa:{fbb.placa} </p>
+						<p style={{ margin: '0px' }}>Modelo:{fbb.modelo}</p>
 						<p style={{ margin: '0px' }}>Cantidad Facturas: {fbb.numerofacturas}</p>
 						<p style={{ margin: '0px' }}>Monto Total: {montoTotal}</p>
 						<p>
@@ -232,11 +228,9 @@ export default function Tickets({ fbb }) {
 								<h3>Ticket:{fbb.flete}</h3>
 							</Col>
 						</Row>
-						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre}</p>
-						<p style={{ margin: '0px' }}>Vehiculo</p>
-						<p style={{ margin: '0px' }}>
-							Placa:{fbb.placa} Modelo:{fbb.modelo}
-						</p>
+						<p style={{ margin: '0px' }}>Motorista :{fbb.nombre.toUpperCase()}</p>
+						<p style={{ margin: '0px' }}>Vehiculo Placa:{fbb.placa}</p>
+						<p style={{ margin: '0px' }}>Modelo:{fbb.modelo}</p>
 						<p style={{ margin: '0px' }}>Cantidad Facturas: {fbb.numerofacturas}</p>
 						<p style={{ margin: '0px' }}>Monto Total: {montoTotal}</p>
 						<p>
